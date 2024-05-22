@@ -2,7 +2,7 @@ import random
 
 import pygame
 from assets import GAME_ASSETS
-from enemy import Enemy
+from enemies.enemy import Enemy
 
 
 class Map:

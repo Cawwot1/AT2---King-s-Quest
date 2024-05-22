@@ -1,6 +1,6 @@
 import pygame
+from character.character_select import CharacterSelect
 from menu import MainMenu
-from character_select import CharacterSelect
 from map import Map
 from assets import load_assets, GAME_ASSETS
 
