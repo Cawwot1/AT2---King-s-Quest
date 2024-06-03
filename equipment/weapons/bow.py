@@ -3,19 +3,34 @@ from equipment.weapons.weapon import Weapon
 class Bow(Weapon):
     
     #Atributes
-    _percision = None
+    _multishot = None
     
-    def __init__(self, name, description, quality, rarity, level_req, piercing, damage, weapon_type, isElement_damage, element_damage, element, precision):
-        super().__init__(name, description, quality, rarity, level_req, piercing, damage, weapon_type, isElement_damage, element_damage, element)
-        self._percision = precision
+    def __init__(self, name, description, quality, rarity, level_req, damage, piercing, weapon_type, isElement_damage, element_damage, element, multishot):
+        super().__init__(name, description, quality, rarity, level_req, damage, piercing, weapon_type, isElement_damage, element_damage, element)
+        self._multishot = multishot
 
-    def attack(self, target):
+    
+    # Accessors for multishot
+
+    def getMultishot(self):
+        return self._multishot
+
+    # Mutators for multishot
+
+    def setMultishot(self, multishot):
+        self._volley = multishot
+
+
+    # Behaviours
+    def attack_mult(self):
         # Logic for attacking a target
+        attack_factor = self._damage * self._multishot
         pass
 
-    def block(self, target):
+    def block_mult(self):
         # Logic for blocking
         pass
 
     def info(self):
-        return super().info()
+        return (f"{super().info()} \n"
+                f"Mutlishot Percentage: {self._multishot}")

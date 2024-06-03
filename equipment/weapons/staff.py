@@ -5,17 +5,29 @@ class Staff(Weapon):
     #Atributes
     _mana = None
     
-    def __init__(self, name, description, quality, rarity, level_req, piercing, damage, weapon_type, isElement_damage, element_damage, element, mana):
-        super().__init__(name, description, quality, rarity, level_req, piercing, damage, weapon_type, isElement_damage, element_damage, element)
+    def __init__(self, name, description, quality, rarity, level_req, damage, piercing, weapon_type, isElement_damage, element_damage, element, mana):
+        super().__init__(name, description, quality, rarity, level_req, damage, piercing, weapon_type, isElement_damage, element_damage, element)
         self._mana = mana
 
-    def attack(self, target):
+    # Accessors for mana
+
+    def getMana(self):
+        return self._mana
+
+    # Mutators for mana
+
+    def setMana(self, new_mana):
+        self._mana = new_mana
+
+    # Behaviours
+    def attack_mult(self, target):
         # Logic for attacking a target
         pass
 
-    def block(self, target):
+    def block_mult(self, target):
         # Logic for blocking
         pass
 
     def info(self):
-        return super().info()
+        return (f"{super().info()} \n"
+                f"Mana: {self._mana}")
