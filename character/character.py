@@ -29,20 +29,37 @@ class Character():
     _gold = None
     _attribute_points = None
 
+    #Equipped
+    _equipped_ring = None
+    _equipped_necklace = None
+    _equipped_helmet = None
+    _equipped_chestplate = None
+    _equipped_legs = None
+    _equipped_boots = None
+    _equipped_weapon = None
+
     #Why are these caps?
     MAX_LEVEL = 50  # Maximum level a character can reach
     ATTRIBUTE_POINTS_PER_LEVEL = 3  # Number of attribute points gained per level
 
     #Conctructor
-    def __init__(self, name, character_class, atri_attack, atri_defence, atri_speed): #requests input (into constr.) for name & cha. class
-        super().__init__(atri_attack, atri_defence, atri_speed)      
+    def __init__(self, name, character_class): #requests input (into constr.) for name & cha. class     
         self._name = name
         self._character_class = character_class
         
-        #Skills
+        #skills
         self._skill_attack = 0
         self._skill_defence = 0
         self._skill_speed = 0
+
+        #equipped
+        self._equipped_ring = None
+        self._equipped_necklace = None
+        self._equipped_helmet = None
+        self._equipped_chestplate = None
+        self._equipped_legs = None
+        self._equipped_boots = None
+        self._equipped_weapon = None
 
         #preset atribute values
         self._level = 1  # Character's current level
@@ -58,6 +75,8 @@ class Character():
         self.crit_chance = 10 #percent (%)
         self.crit_damage = 50 #precent (%)
 
+        #Other
+
     #UP TO HERE ###########
 
     def assign_attribute_points(self, attribute, points): #Basic Skills
@@ -70,28 +89,63 @@ class Character():
         else:
             print(f"Error: Attribute '{attribute}' does not exist.")
 
-    def attack(self, enemy_defence):
-        isDouble_hit = random.random() < self._speed/200
+    def equip_weapon(self, weapon_object):
+        if self._equipped_weapon: #if equipped_weap true
+            user_input = input(f"{self._equipped_weapon.name} is equipped, do you want to replace? (y/n)")
+            if user_input.lower() != "y":
+                print("Action Cancelled")
+                return
+
+        self._equipped_weapon = weapon_object
+        print(f"{weapon_object} equipped")
+
+    def equip_armour(self, armour_object): ### IS THIS ALLOWED (having a dictionary here)???
+        
+        piece_equipped = {
+            "helmet": self._equipped_helmet,
+            "chestplate": self._equipped_chestplate,
+            "legs": self._equipped_legs,
+            "boots": self._equipped_boots}
+        armour_piece = armour_piece(armour_object.getPiece())
+        
+        if piece_equipped: #if piece_equipped true
+            user_input = input(f"{piece_equipped.getName()} is equipped, do you want to replace? (y/n)")
+            if user_input.lower() != "y":
+                print("Action Cancelled")
+                return
+        piece_equipped = armour_object
+        print(f"{armour_object} equipped")
+
+    def equip_accessory(self, accessory_object):
+        acc_equipped = {
+            "ring": self._equipped_ring,
+            "necklace": self._equipped_necklace}
+        acc_equipped = acc_equipped(accessory_object.getAccesPiece())
+
+        if acc_equipped: #if acc_piece true
+            user_input = input(f"{accessory_object.getName()} is equipped, do you want to replace? (y/n)")
+            if user_input.lower() != "y":
+                print("Action Cancelled")
+                return
+        acc_equipped = accessory_object
+        print(f"{accessory_object} equipped")
+
+    def attack(self, enemy_defence, enemy_hardness):
         isCrit = random.random() < self.crit_chance/100
         
-        #Double Hit Calculator
-        if isDouble_hit == True:
-            dub_dmg_mult = 2
-        else:
-            dub_dmg_mult = 1
-        
-        #Crit Chance
-        if isCrit == True:
-            crit_dmg_mult = 1 + self.crit_damage/100
-        else:
-            crit_dmg_mult = 1
-
-        character_damage = (self.attack + self._skill_attack) * crit_dmg_mult * isDouble_hit
-        weapon_damage = ()
-        artifact_damage =()
-        
-        return (character_damage + weapon_damage + artifact_damage)
-
+    def equipment_stats(self):
+        #Offence
+        offence_items = [self._equipped_weapon, self._equipped_necklace, self._equipped_ring]
+        raw_damage = sum(item.getDamage() for item in offence_items)
+        piercing = sum(item.getPiercing() for item in offence_items)
+        elemental_damage = self._equipped_weapon.getElementDamage() + self._equipped_necklace.getElementalAtk()
+        weapon_element = self._equipped_weapon.getElement()
+        #Defence
+        defence_items = [self._equipped_helmet, self._equipped_chestplate, self._equipped_legs, self._equipped_boots, self._equipped_necklace, self._equipped_ring]
+        raw_defence = sum(item.getDefence() for item in defence_items)
+        hardness = self._equipped_helmet.getHardness() + self._equipped_chestplategetHardness() + self._equipped_legs.getHardness() + self._equipped_boots.getHardness() 
+        elemental_defence = sum(item.getElementalDef() for item in defence_items)
+    
     def gain_experience(self, experience):
         self.experience_points += experience  # Increase character's experience points
         # Calculate experience required for next level
