@@ -1,3 +1,4 @@
+#Factory Class
 class Ability_list():
     
     #Atributes
