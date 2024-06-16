@@ -14,8 +14,9 @@ class Accessories(Equipment):
     _ability_list = None
     _armour_piece = None
 
-    def __init__(self, name, description, quality, rarity, level_req, defence, attack, acces_piece, elemental_def, elemental_atk, abilities):
-        super().__init__(name, description, quality, rarity, level_req)
+    def __init__(self, name, description, quality, rarity, level_req, defence, attack, acces_piece, elemental_def, elemental_atk, abilities, item_type):
+        super().__init__(name, description, quality, rarity, level_req, item_type)
+
         self._defence = defence
         self._attack = attack
         self._acces_piece = acces_piece
@@ -45,7 +46,7 @@ class Accessories(Equipment):
     
     def getAbilityList(self):
         return self._ability_list
-
+    
     # Mutators
 
     def setDefence(self, new_defence):

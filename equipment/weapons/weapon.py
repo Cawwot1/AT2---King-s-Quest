@@ -13,15 +13,14 @@ class Weapon(Equipment, ABC):
     _element = None
 
 
-    def __init__(self, name, description, quality, rarity, level_req, damage, piercing, weapon_type, isElement_damage, element_damage, element):
-        super().__init__(name, description, quality, rarity, level_req)
+    def __init__(self, name, description, quality, rarity, level_req, damage, piercing, weapon_type, isElement_damage, element_damage, element, item_type):
+        super().__init__(name, description, quality, rarity, level_req, item_type)
         self._piercing = piercing
         self._damage = damage
         self._weapon_type = weapon_type
         self._isElement_damage = isElement_damage
         self._element_damage = element_damage
         self._element = element
-
     # Accessors
 
     def getDamage(self):

@@ -5,8 +5,8 @@ class Sword(Weapon):
     #Atributes
     _titan_slayer = None
     
-    def __init__(self, name, description, quality, rarity, level_req, damage, piercing, weapon_type, isElement_damage, element_damage, element, titan_slayer):
-        super().__init__(name, description, quality, rarity, level_req, damage, piercing, weapon_type, isElement_damage, element_damage, element)
+    def __init__(self, name, description, quality, rarity, level_req, damage, piercing, weapon_type, isElement_damage, element_damage, element, titan_slayer, item_type):
+        super().__init__(name, description, quality, rarity, level_req, damage, piercing, weapon_type, isElement_damage, element_damage, element, item_type)
         self._titan_slayer = titan_slayer
 
     # Accessors for titan_slayer

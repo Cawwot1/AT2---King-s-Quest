@@ -1,3 +1,4 @@
+from item_management.inventory import Inventory
 from character.attributes.skill import Skill
 import random
 
@@ -28,6 +29,7 @@ class Character():
     _inventory = None
     _gold = None
     _attribute_points = None
+    __inventory = None
 
     #Equipped
     _equipped_ring = None
@@ -43,9 +45,10 @@ class Character():
     ATTRIBUTE_POINTS_PER_LEVEL = 3  # Number of attribute points gained per level
 
     #Conctructor
-    def __init__(self, name, character_class): #requests input (into constr.) for name & cha. class     
+    def __init__(self, name, character_class, inventory_cap): #requests input (into constr.) for name & cha. class     
         self._name = name
         self._character_class = character_class
+        self.__inventory = Inventory(inventory_cap)
         
         #skills
         self._skill_attack = 0
@@ -69,7 +72,6 @@ class Character():
         self._health = 100  # Example starting value for character's hit points
         self._defence = 10  # Example starting value for character's armor class
         self._skills = []  # Example empty dictionary for character's skills
-        self.inventory = []  # Example empty list for character's inventory
         self.gold = 0  # Example starting value for character's gold
         self.attribute_points = 0  # Attribute points available to allocate
         self.crit_chance = 10 #percent (%)
@@ -78,6 +80,9 @@ class Character():
         #Other
 
     #UP TO HERE ###########
+
+    def getInventory(self):
+        return self.__inventory
 
     def assign_attribute_points(self, attribute, points): #Basic Skills
         if attribute == "attack":
@@ -133,7 +138,6 @@ class Character():
     def attack(self, enemy_defence, enemy_hardness):
         isCrit = random.random() < self.crit_chance/100
         
-        
     def equipment_stats(self):
         #Offence
         offence_items = [self._equipped_weapon, self._equipped_necklace, self._equipped_ring]
@@ -147,7 +151,6 @@ class Character():
         hardness = self._equipped_helmet.getHardness() + self._equipped_chestplategetHardness() + self._equipped_legs.getHardness() + self._equipped_boots.getHardness() 
         elemental_defence = sum(item.getElementalDef() for item in defence_items)
 
-    
     def gain_experience(self, experience):
         self.experience_points += experience  # Increase character's experience points
         # Calculate experience required for next level

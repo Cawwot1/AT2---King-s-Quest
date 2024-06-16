@@ -5,8 +5,8 @@ class Dagger(Weapon):
     #Atributes
     _stealth = None
     
-    def __init__(self, name, description, quality, rarity, level_req, damage, piercing, weapon_type, isElement_damage, element_damage, element, stealth):
-        super().__init__(name, description, quality, rarity, level_req, damage, piercing, weapon_type, isElement_damage, element_damage, element)
+    def __init__(self, name, description, quality, rarity, level_req, damage, piercing, weapon_type, isElement_damage, element_damage, element, stealth, item_type):
+        super().__init__(name, description, quality, rarity, level_req, damage, piercing, weapon_type, isElement_damage, element_damage, element, item_type)
         self._stealth = stealth
     
     # Accessors for stealth

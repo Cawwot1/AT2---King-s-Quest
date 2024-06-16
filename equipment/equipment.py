@@ -9,17 +9,18 @@ class Equipment(ABC):
     _quality = None
     _rarity = None
     _level_req = None
-    _type = None
     _element = None
     _piercing = None
+    __item_type = None
 
     #Constructor
-    def __init__(self, name, description, quality, rarity, level_req):
+    def __init__(self, name, description, quality, rarity, level_req, item_type):
         self._name = name
         self._description = description
         self._quality = quality
         self._rarity = rarity
         self._level_req = level_req
+        self.__item_type = item_type
     
     # Accessors
 
@@ -38,6 +39,9 @@ class Equipment(ABC):
     def getLevelReq(self):
         return self._level_req
 
+    def getItemType(self):
+        return self.__item_type
+
     # Mutators
 
     def setName(self, new_name):
@@ -54,6 +58,9 @@ class Equipment(ABC):
 
     def setLevelReq(self, new_level_req):
         self._level_req = new_level_req
+    
+    def setItemType(self, new_type):
+        self.__item_type = new_type
 
 
     #Behaviours
@@ -70,4 +77,4 @@ class Equipment(ABC):
                 f"Quality: {self._quality}\n"
                 f"Rarity: {self._rarity}\n"
                 f"Level Requirement: {self._level_req}\n"
-                f"Equipment Type: {self._type}")
+                f"Item Type: {self.__item_type}")

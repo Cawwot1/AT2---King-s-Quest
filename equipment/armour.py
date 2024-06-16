@@ -12,8 +12,8 @@ class Armour(Equipment):
     _ability_list = None
     _armour_piece = None
 
-    def __init__(self, name, description, quality, rarity, level_req, defence, hardness, armour_piece, elemental_def, abilities):
-        super().__init__(name, description, quality, rarity, level_req)
+    def __init__(self, name, description, quality, rarity, level_req, defence, hardness, armour_piece, elemental_def, abilities, item_type):
+        super().__init__(name, description, quality, rarity, level_req, item_type)
         self._defence = defence
         self._hardness = hardness
         self._armour_piece = armour_piece
