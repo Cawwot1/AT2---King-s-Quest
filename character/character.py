@@ -133,6 +133,7 @@ class Character():
     def attack(self, enemy_defence, enemy_hardness):
         isCrit = random.random() < self.crit_chance/100
         
+        
     def equipment_stats(self):
         #Offence
         offence_items = [self._equipped_weapon, self._equipped_necklace, self._equipped_ring]
@@ -145,6 +146,7 @@ class Character():
         raw_defence = sum(item.getDefence() for item in defence_items)
         hardness = self._equipped_helmet.getHardness() + self._equipped_chestplategetHardness() + self._equipped_legs.getHardness() + self._equipped_boots.getHardness() 
         elemental_defence = sum(item.getElementalDef() for item in defence_items)
+
     
     def gain_experience(self, experience):
         self.experience_points += experience  # Increase character's experience points
