@@ -32,6 +32,9 @@ class Inventory:
         self.__item_num = 0
         self.__equipment_type = None
 
+        #ASK IF THIS IS OKAY - #Inventory Setup
+        self.__inventory.append(self.__equipment)
+        self.__inventory.append(self.__consumables)
 
 
     # Accessors
@@ -83,3 +86,18 @@ class Inventory:
         elif self.__item_type == "consumables":
             self.__consumables.append(item)
             print(f"Stored {item.getName()} in Consumables") #remove when visuals
+        
+    def find_item(self, item_name):
+        """
+        Finds item in inventory
+        Inputs: name of item
+        Outputs: 
+        - Item object if item_name in found in inventory
+        - False if no objects match object name
+        """
+        for sublist in self.__inventory: #self.__inventory is a list that stores lists
+            for item in sublist:
+                if item.getName() == item_name:
+                    return item
+        return False
+    

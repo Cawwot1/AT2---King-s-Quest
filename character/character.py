@@ -1,8 +1,13 @@
 from item_management.inventory import Inventory
 from character.attributes.skill import Skill
 import random
+import math
+import pygame
 
 class Character():
+    """
+    Character class
+    """
     
     #Atributes
     
@@ -16,9 +21,12 @@ class Character():
     _defence = None
     
     #Progression
-    _Level = None
+    _level = None
     _xp = None
     _attribute_points = None
+    __world_level = None
+    __map = None    
+    
 
     #Skills
     _skill_attack = None
@@ -56,16 +64,16 @@ class Character():
         self._skill_speed = 0
 
         #equipped
-        self._equipped_ring = None
-        self._equipped_necklace = None
-        self._equipped_helmet = None
-        self._equipped_chestplate = None
-        self._equipped_legs = None
-        self._equipped_boots = None
-        self._equipped_weapon = None
+        self._equipped_ring = False
+        self._equipped_necklace = False
+        self._equipped_helmet = False
+        self._equipped_chestplate = False
+        self._equipped_legs = False
+        self._equipped_boots = False
+        self._equipped_weapon = False
 
         #preset atribute values
-        self._level = 1  # Character's current level
+        self._level = 0  # Character's current level
         self._attack = 10
         self._speed = 10
         self._xp = 0  # Character's current experience points
@@ -77,14 +85,38 @@ class Character():
         self.crit_chance = 10 #percent (%)
         self.crit_damage = 50 #precent (%)
 
-        #Other
+        #Progression
+        self.setWorld_level(1)
+        self.setMap("Woodlands")
+
+    #Accessors
+    def getWorld_level(self):
+        return self.__world_level
+    def getMap(self):
+        return self.__map
+
+    #Mutators
+    def setWorld_level(self, world_level):
+        self.__world_level = world_level
+    def setMap(self, map):
+        self.__map = map
 
     #UP TO HERE ###########
+
+    def basic_info(self):
+        return (f"Health: {self._health}"
+                f"Attack: {self._attack}"
+                f"Defence: {self._defence}")
 
     def getInventory(self):
         return self.__inventory
 
-    def assign_attribute_points(self, attribute, points): #Basic Skills
+    def assign_attribute_points(self, attribute, points):
+
+        """
+        Skill Points
+        """
+
         if attribute == "attack":
             self._skill_attack = Skill.boost_attack(points)
         elif attribute == "defence":
@@ -94,89 +126,80 @@ class Character():
         else:
             print(f"Error: Attribute '{attribute}' does not exist.")
 
-    def equip_weapon(self, weapon_object):
-        if self._equipped_weapon: #if equipped_weap true
-            user_input = input(f"{self._equipped_weapon.name} is equipped, do you want to replace? (y/n)")
-            if user_input.lower() != "y":
+    def equip_weapon(self, weapon_object): 
+        
+        """
+        Equips Weapon
+        """
+
+        if self._equipped_weapon == True: #if a weapon is equipped
+            user_input = input(f"{self._equipped_weapon.getName()} is equipped, do you want to replace? (y/n)")
+            if user_input.lower() != "y": #cancelation of weap. equip
                 print("Action Cancelled")
                 return
-
-        self._equipped_weapon = weapon_object
+        self._equipped_weapon = weapon_object #equips weapon
         print(f"{weapon_object} equipped")
 
     def equip_armour(self, armour_object): ### IS THIS ALLOWED (having a dictionary here)???
-        
-        piece_equipped = {
+
+        """
+        Equips Armour 
+        """
+
+        piece_equipped = { 
             "helmet": self._equipped_helmet,
             "chestplate": self._equipped_chestplate,
             "legs": self._equipped_legs,
             "boots": self._equipped_boots}
-        armour_piece = armour_piece(armour_object.getPiece())
+        armour_piece = piece_equipped[armour_object.getPiece()] #checks for the current equiped armour piece
         
-        if piece_equipped: #if piece_equipped true
+        if armour_piece == True: #if a piece is equipped
             user_input = input(f"{piece_equipped.getName()} is equipped, do you want to replace? (y/n)")
-            if user_input.lower() != "y":
+            if user_input.lower() != "y": #cancellation of armour equip.
                 print("Action Cancelled")
                 return
-        piece_equipped = armour_object
-        print(f"{armour_object} equipped")
+        piece_equipped = armour_object #equips new piece
+        print(f"{armour_object.getName()} equipped") 
 
     def equip_accessory(self, accessory_object):
+
+        """
+        Equips Accessory
+        """
         acc_equipped = {
             "ring": self._equipped_ring,
             "necklace": self._equipped_necklace}
-        acc_equipped = acc_equipped(accessory_object.getAccesPiece())
+        acc_piece = acc_equipped(accessory_object.getPiece())
 
-        if acc_equipped: #if acc_piece true
+        if acc_piece == True: #if a accessory is equipped
             user_input = input(f"{accessory_object.getName()} is equipped, do you want to replace? (y/n)")
-            if user_input.lower() != "y":
+            if user_input.lower() != "y": #cancelation of acces. equip
                 print("Action Cancelled")
                 return
-        acc_equipped = accessory_object
-        print(f"{accessory_object} equipped")
+        acc_equipped = accessory_object #equips accessory
+        print(f"{accessory_object} equipped") 
 
-    def attack(self, enemy_defence, enemy_hardness):
-        isCrit = random.random() < self.crit_chance/100
+    def gain_experience(self, experience): 
+        """
+        Exp & Level System
+        """
+        self._xp += experience  # Increase character's experience points
+        required_experience = self.calculate_required_experience(self._level)
         
-    def equipment_stats(self):
-        #Offence
-        offence_items = [self._equipped_weapon, self._equipped_necklace, self._equipped_ring]
-        raw_damage = sum(item.getDamage() for item in offence_items)
-        piercing = sum(item.getPiercing() for item in offence_items)
-        elemental_damage = self._equipped_weapon.getElementDamage() + self._equipped_necklace.getElementalAtk()
-        weapon_element = self._equipped_weapon.getElement()
-        #Defence
-        defence_items = [self._equipped_helmet, self._equipped_chestplate, self._equipped_legs, self._equipped_boots, self._equipped_necklace, self._equipped_ring]
-        raw_defence = sum(item.getDefence() for item in defence_items)
-        hardness = self._equipped_helmet.getHardness() + self._equipped_chestplategetHardness() + self._equipped_legs.getHardness() + self._equipped_boots.getHardness() 
-        elemental_defence = sum(item.getElementalDef() for item in defence_items)
-
-    def gain_experience(self, experience):
-        self.experience_points += experience  # Increase character's experience points
-        # Calculate experience required for next level
-        required_experience = self.calculate_required_experience(self.level + 1)
-        # Check if character has enough experience to level up and is below the level cap
-        while self.experience_points >= required_experience and self.level < self.MAX_LEVEL:
-            self.level += 1  # Level up the character
-            self.experience_points -= required_experience  # Decrease character's experience points
-            self.hit_points += 10  # Example: Increase hit points by 10 each level up
+        while self._xp >= required_experience and self._level < self.MAX_LEVEL: #Checks if character has enough to Level-up
+            self._level += 1  # Level up the character
+            self._xp -= required_experience  #Subtract level-up experience points
+            
+            #Level-up boosts
+            self._health += 5
+            self._attack += 2
+            
             self.attribute_points += self.ATTRIBUTE_POINTS_PER_LEVEL  # Allocate attribute points
-            print(f"Level up! {self.name} is now level {self.level}.")
-            # Calculate experience required for next level
-            required_experience = self.calculate_required_experience(self.level + 1)
+            print(f"Level up! {self._name} is now level {self._level}.")
+            required_experience = self.calculate_required_experience(self._level + 1)#Experience required for next level
 
-    def calculate_required_experience(self, level):
-        # Example exponential scaling: Each level requires 100 more experience points than the previous level
-        return int(100 * (1.5 ** (level - 1)))
-
-    def is_alive(self):
-        return self.hit_points > 0
-
-    def take_damage(self, amount):
-        # Calculate the actual damage taken, taking into account the character's armor
-        actual_damage = max(0, amount - self.armor)
-        self.hit_points -= actual_damage
-        if self.hit_points <= 0:
-            print(f"{self.name} takes {actual_damage} damage and has been defeated!")
-        else:
-            print(f"{self.name} takes {actual_damage} damage. Remaining hit points: {self.hit_points}")
+    def calculate_required_experience(self, level): 
+        """
+        Calculates requred experience for next level
+        """
+        return round(int(level + 10*level**1.2))

@@ -1,0 +1,20 @@
+# Attributes
+__world_level = None
+__map = None
+
+# Constructor
+def __init__(self, world_level, map):
+    self.setWorld_level(world_level)
+    self.setMap(map)
+
+# Getters
+def getWorld_level(self):
+    return self.__world_level
+def getMap(self):
+    return self.__map
+
+# Setters
+def setWorld_level(self, world_level):
+    self.__world_level = world_level
+def setMap(self, map):
+    self.__map = map

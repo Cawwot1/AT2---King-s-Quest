@@ -62,7 +62,6 @@ class Equipment(ABC):
     def setItemType(self, new_type):
         self.__item_type = new_type
 
-
     #Behaviours
     def equip(self, character):
         # Logic for equipping the item
