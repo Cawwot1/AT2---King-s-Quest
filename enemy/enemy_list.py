@@ -1,3 +1,4 @@
+from enemy.enemy import Enemy 
 #Factory Class
 class Enemy_list:  
 
@@ -63,12 +64,14 @@ class Enemy_list:
         else:
             return("Invalid Input") #error check
     
+    def find_enemy(self, enemy):
+        return self.__all_enemies[self.__all_enemies.index(enemy)] #finds & extracts enemy object from all_enemies (list)
+
     def world_level_up(self):
         for lists in self.__all_enemies:
             for enemy in lists:
                 enemy.setEnemy_hp(enemy.getEnemy_hp() * 1.25)
                 enemy.setEnemy_attack(enemy.getEnemy_attack() * 1.25)
                 enemy.setEnemy_speed(enemy.getEnemy_speed() * 1.25)
-    
     
         

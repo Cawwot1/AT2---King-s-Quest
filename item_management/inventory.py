@@ -36,7 +36,6 @@ class Inventory:
         self.__inventory.append(self.__equipment)
         self.__inventory.append(self.__consumables)
 
-
     # Accessors
     def getCapacity(self):
         return self.__capacity

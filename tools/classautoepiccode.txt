@@ -1,20 +1,20 @@
 # Attributes
-__world_level = None
-__map = None
+__victory_image = None
+__defeat_image = None
 
 # Constructor
-def __init__(self, world_level, map):
-    self.setWorld_level(world_level)
-    self.setMap(map)
+def __init__(self, victory_image, defeat_image):
+    self.setVictory_image(victory_image)
+    self.setDefeat_image(defeat_image)
 
 # Getters
-def getWorld_level(self):
-    return self.__world_level
-def getMap(self):
-    return self.__map
+def getVictory_image(self):
+    return self.__victory_image
+def getDefeat_image(self):
+    return self.__defeat_image
 
 # Setters
-def setWorld_level(self, world_level):
-    self.__world_level = world_level
-def setMap(self, map):
-    self.__map = map
+def setVictory_image(self, victory_image):
+    self.__victory_image = victory_image
+def setDefeat_image(self, defeat_image):
+    self.__defeat_image = defeat_image

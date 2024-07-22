@@ -14,14 +14,12 @@ class Accessories(Equipment):
     _ability_list = None
     _armour_piece = None
 
-    def __init__(self, name, description, quality, rarity, level_req, defence, attack, piece, elemental_def, elemental_atk, abilities, item_type):
+    def __init__(self, name, description, quality, rarity, level_req, defence, attack, piece, abilities, item_type):
         super().__init__(name, description, quality, rarity, level_req, item_type)
 
         self._defence = defence
         self._attack = attack
         self.__piece = piece
-        self._elemental_def = elemental_def
-        self._elemental_atk = elemental_atk
         self._abilities = abilities.split(" ")
         self._ability_list = []
         for ability in self._abilities:
@@ -37,12 +35,6 @@ class Accessories(Equipment):
 
     def getPiece(self):
         return self.__piece
-
-    def getElementalDef(self):
-        return self._elemental_def
-    
-    def getElementaAtk(self):
-        return self._elemental_atk
     
     def getAbilityList(self):
         return self._ability_list
@@ -52,17 +44,11 @@ class Accessories(Equipment):
     def setDefence(self, new_defence):
         self._defence = new_defence
 
-    def setAttack(self, new_hardness):
-        self._hardness = new_hardness
+    def setAttack(self, new_attack):
+        self._attack = new_attack
     
     def setPiece(self, new_piece):
         self.__piece = new_piece
-
-    def setElementalDef(self, new_elemental_def):
-        self._elemental_def = new_elemental_def
-    
-    def setElementaAtk(self, new_element_atk):
-        self._elemental_atk = new_element_atk
 
     def setAbilityList(self, new_ability_list):
         self._abilities = new_ability_list
@@ -70,18 +56,16 @@ class Accessories(Equipment):
     #Methods
 
     def defence_mult(self):
-        return (self._defence, self._elemental_def)
+        return (self._defence)
 
     def attack_mult(self):
-        return (self._attack, self._elemental_atk)
+        return (self._attack)
 
     def info(self): #Calls from Parent Class (Inherited Behaviours)
         return (f"{super().info()}\n"
                 f"Defence: {self._defence}\n"
                 f"Hardness: {self._attack}\n"
                 f"Armour Piece: {self.__piece}\n"
-                f"Elemental Defence: {self._elemental_def}\n"
-                f"Elemental Attack: {self._elemental_atk}\n"
                 f"Abilities: {self._abilities}")
                 
     #Possible Expasion ... If i have the time

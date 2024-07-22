@@ -1,7 +1,10 @@
-from enemy.enemy_list import Enemy_list
+from enemy.create_enemy import Create_Enemy
 
-class map_woodlands:
-    
+class Map_Woodlands:
+    """
+    Map/Area 1 -> Woodlands
+    """
+
     # Attributes
     __area_level = None
     __enemies = None
@@ -10,8 +13,12 @@ class map_woodlands:
     # Constructor
     def __init__(self):
         self.setArea_level(1)
-        self.setEnemies(Enemy_list.getLevel1_enemies)
-        self.setBosses()
+        self.setEnemies([
+            Create_Enemy.Bandit(),   # Create instances
+            Create_Enemy.Goblin(),   # Create instances
+            Create_Enemy.Zombie()    # Create instances
+        ])
+        self.setBosses(None) #Update Later
 
     # Getters
     def getArea_level(self):
