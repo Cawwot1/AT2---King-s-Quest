@@ -6,20 +6,21 @@ from character.attributes.skill import Skill
 from enemy.create_enemy import Create_Enemy
 from maps.woodlands import Map_Woodlands
 
-#Character actions imported in Behaviours to stop curcular import/dependancy error
+#Map & Camera
+from game_run.settings import *
 
 import random
 import math
 import pygame
 import time
 
-class Character():
+class Character(pygame.sprite.Sprite):
     """
     Character class
     """
     
     #Atributes
-    
+
     #Character Constr.
     __name = None
     __character_class = None
@@ -60,17 +61,32 @@ class Character():
     __equipped_boots = None
     __equipped_weapon = None
 
+    #Sprite
+    __sprite = None
+
     #Why are these caps?
     MAX_LEVEL = 50  # Maximum level a character can reach
     ATTRIBUTE_POINTS_PER_LEVEL = 3  # Number of attribute points gained per level
 
     #Conctructor
-    def __init__(self, name, character_class, inventory_cap): #requests input (into constr.) for name & cha. class     
-        self.setName(name)
-        self.setCharacter_class(character_class)
-        self.__inventory = Inventory(inventory_cap)
+    def __init__(self, name, character_class, inventory_cap, pos, group): #requests input (into constr.) for name, cha. class, pos. of character & group
+        super().__init__(group)
         
+        self.setSkills_instance(Skill(self))
+
+        self.name = name
+        self.character_class = character_class
+        self.inventory = Inventory(inventory_cap)
         
+        # Character Sprite
+        self.image = pygame.image.load(f'assets/classes/{character_class.lower()}.png').convert_alpha()
+        self.rect = self.image.get_rect(center=pos)
+        self.rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+
+        # Character Movement
+        self.direction = pygame.math.Vector2()
+        self.speed = 5
+
         #skills
         self.setSkill_attack(0)
         self.setSkill_defence(0)
@@ -170,6 +186,11 @@ class Character():
     
     def getEquipment_list(self):
         return self.__equipment_list
+    def getImage(self):
+        return self.image
+    
+    def getSkills_instance(self):
+        return self.__skills_instace
 
     #Mutators
     def setName(self, name):
@@ -234,8 +255,43 @@ class Character():
     #Has to get updates (through combat_stats) -> ONLY USED FOR COMBAT STATS
     def setEquipment_list(self, boots, helmet, chestplate, legs, necklace, ring, weapon):
         self.__equipment_list = [boots, helmet, chestplate, legs, necklace, ring, weapon]
+
+    def setImage(self, image):
+        self.image = image
     
+    def setSkills_instance(self, skills_instance):
+        self.__skills_instace = skills_instance
+
     #Behaviours
+
+    #Character Movement
+    def input(self):
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_UP]:
+            self.direction.y = -1
+        elif keys[pygame.K_DOWN]:
+            self.direction.y = 1
+        else:
+            self.direction.y = 0
+
+        if keys[pygame.K_RIGHT]:
+            self.direction.x = 1
+        elif keys[pygame.K_LEFT]:
+            self.direction.x = -1
+        else:
+            self.direction.x = 0
+
+    #Character Movement
+    def update(self):
+        self.input()
+        self.rect.center += self.direction * self.speed
+
+    
+    def inventory_info(self):
+        # Example inventory display
+        inventory_items = [f"{item.getName()}: {item.getQuantity()}" for item in self.inventory.getItems()]
+        return inventory_items
 
     def basic_stats(self):
         return (f"Health: {self._health}"
@@ -265,8 +321,8 @@ class Character():
                 total_attack += item.getAttack()
 
         # Add additional stats from the .get methods
-        total_defence += self.getDefence()
-        total_attack += self.getDamage()
+        total_defence += self.getDefence() + self.__skills_instace.getAtri_def()
+        total_attack += self.getDamage() + self.__skills_instace.getAtri_atk()
 
         #Weapon Gimick attribute is Retrived in Combat
         if hasattr(self.getEquipped_weapon, "getDamage"):
@@ -322,10 +378,10 @@ class Character():
         """
 
         piece_equipped = { 
-            "helmet": self._equipped_helmet,
-            "chestplate": self._equipped_chestplate,
-            "legs": self._equipped_legs,
-            "boots": self._equipped_boots}
+            "helmet": self.__equipped_helmet,
+            "chestplate": self.__equipped_chestplate,
+            "legs": self.__equipped_legs,
+            "boots": self.__equipped_boots}
         armour_piece = piece_equipped[armour_object.getPiece()] #checks for the current equiped armour piece
         
         if armour_piece == True: #if a piece is equipped
@@ -342,8 +398,8 @@ class Character():
         Equips Accessory
         """
         acc_equipped = {
-            "ring": self._equipped_ring,
-            "necklace": self._equipped_necklace}
+            "ring": self.__equipped_ring,
+            "necklace": self.__equipped_necklace}
         acc_piece = acc_equipped(accessory_object.getPiece())
 
         if acc_piece == True: #if a accessory is equipped
@@ -354,39 +410,102 @@ class Character():
         acc_equipped = accessory_object #equips accessory
         print(f"{accessory_object} equipped") 
 
-    def gain_experience(self, experience): 
-        """
-        Exp & Level System
-        """
-        self._xp += experience  # Increase character's experience points
-        required_experience = self.calculate_required_experience(self._level)
-        
-        while self._xp >= required_experience and self._level < self.MAX_LEVEL: #Checks if character has enough to Level-up
-            self._level += 1  # Level up the character
-            self._xp -= required_experience  #Subtract level-up experience points
-            
-            #Level-up boosts
-            self._health += 5
-            self._attack += 2
-            
-            self.attribute_points += self.ATTRIBUTE_POINTS_PER_LEVEL  # Allocate attribute points
-            print(f"Level up! {self._name} is now level {self._level}.")
-            required_experience = self.calculate_required_experience(self._level + 1)#Experience required for next level
+    #Leveling up & EXP
 
+    def gain_experience(self, experience, screen): 
+        """
+        Exp & Level System with visual effects
+        """
+        self.__xp += experience  # Increase character's experience points
+        required_experience = self.calculate_required_experience(self.__level)
+        
+        while self.__xp >= required_experience and self.__level < self.MAX_LEVEL: #Checks if character has enough to Level-up
+            self.__level += 1  # Level up the character
+            self.__xp -= required_experience  # Subtract level-up experience points
+            
+            # Level-up boosts
+            self.__health += 5
+            self.__damage += 2
+            self.__attribute_points += self.ATTRIBUTE_POINTS_PER_LEVEL  # Allocate attribute points
+
+            # Display level-up message with additional info
+            self.show_level_up_message(screen, self.__level, 5, 2, self.ATTRIBUTE_POINTS_PER_LEVEL)
+        
+            required_experience = self.calculate_required_experience(self.__level + 1) # Experience required for next level
+    
     def calculate_required_experience(self, level): 
         """
         Calculates requred experience for next level
         """
         return round(int(level + 10*level**1.2))
     
+    #Level Up Screen
+
+    def show_level_up_message(self, screen, level, health_bonus, attack_bonus, skill_points):
+        """
+        Displays a level-up message with additional information on the screen
+        """
+        font_large = pygame.font.Font(None, 74)
+        font_small = pygame.font.Font(None, 36)
+
+        # Create text surfaces
+        text_level_up = font_large.render("Level Up!", True, (255, 215, 0))
+        text_level = font_small.render(f"Level: {level}", True, (255, 215, 0))
+        text_health_bonus = font_small.render(f"Health +{health_bonus}", True, (255, 215, 0))
+        text_attack_bonus = font_small.render(f"Attack +{attack_bonus}", True, (255, 215, 0))
+        text_skill_points = font_small.render(f"Skill Points +{skill_points}", True, (255, 215, 0))
+
+        # Positioning
+        screen_center = (screen.get_width() // 2, screen.get_height() // 2)
+        text_rects = [
+            text_level_up.get_rect(center=(screen_center[0], screen_center[1] - 60)),
+            text_level.get_rect(center=(screen_center[0], screen_center[1])),
+            text_health_bonus.get_rect(center=(screen_center[0], screen_center[1] + 30)),
+            text_attack_bonus.get_rect(center=(screen_center[0], screen_center[1] + 60)),
+            text_skill_points.get_rect(center=(screen_center[0], screen_center[1] + 90)),
+        ]
+
+        # Animation duration and fade effect
+        start_time = time.time()
+        duration = 3  # Duration in seconds
+
+        while time.time() - start_time < duration:
+            screen.fill((0, 0, 0))  # Clear screen
+            alpha = int(255 * (1 - (time.time() - start_time) / duration))
+            
+            # Handle events to prevent freezing
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    return
+            
+            # Set alpha for each text surface
+            text_level_up.set_alpha(alpha)
+            text_level.set_alpha(alpha)
+            text_health_bonus.set_alpha(alpha)
+            text_attack_bonus.set_alpha(alpha)
+            text_skill_points.set_alpha(alpha)
+
+            # Blit text surfaces
+            screen.blit(text_level_up, text_rects[0])
+            screen.blit(text_level, text_rects[1])
+            screen.blit(text_health_bonus, text_rects[2])
+            screen.blit(text_attack_bonus, text_rects[3])
+            screen.blit(text_skill_points, text_rects[4])
+
+            pygame.display.flip()
+
+    #Player Actions
+
     def explore(self, screen):
         from character.actions.explore import Explore
         explore = Explore(screen)
         explore.explore(self, screen)
 
-    def combat(self, screen, enemy):
+    def combat(self, screen, enemy, ):
         from character.actions.combat import Combat
-        combat = Combat(screen, self, enemy)
-        combat.combat(self, enemy)
+        combat = Combat(screen, self, enemy, )
+        return(combat.combat(self, enemy))
     
-
+    def skills(self, screen, clock):
+        return(self.__skills_instace.show_skill_point_screen(screen, clock))

@@ -16,6 +16,11 @@ class Combat(Character):
  
     # Constructor with screen parameter
     def __init__(self, screen, selected_character, enemy):
+        
+        # Store player and enemy sprites
+        self.player_sprite = selected_character.getImage()
+        self.enemy_sprite = pygame.image.load(enemy.getEnemy_image()).convert_alpha()
+
         self.setScreen(screen)
         
         self.setChar_stats(selected_character.combat_stats())
@@ -291,12 +296,11 @@ class Combat(Character):
 
 
     def combat(self, selected_character, enemy):
-        
         if self.getEnemy_speed() >= 100:
             self.setTurn_order([enemy, selected_character])
         else:
             self.setTurn_order([selected_character, enemy])
-        
+
         running = True
         player_turn = True
         while running and self.getChar_health() > 0 and self.getEnemy_hp() > 0:
@@ -308,6 +312,16 @@ class Combat(Character):
                 action = None
                 while not action:
                     self.getScreen().fill((31, 36, 33))  # Background color
+                    
+                    # Draw player and enemy sprites
+                    player_sprite_position = (self.getScreen().get_width() // 4 - self.player_sprite.get_width() // 2, 
+                                            self.getScreen().get_height() // 2 - self.player_sprite.get_height() // 2)
+                    enemy_sprite_position = (self.getScreen().get_width() * 3 // 4 - self.enemy_sprite.get_width() // 2, 
+                                            self.getScreen().get_height() // 2 - self.enemy_sprite.get_height() // 2)
+                    
+                    self.getScreen().blit(self.player_sprite, player_sprite_position)
+                    self.getScreen().blit(self.enemy_sprite, enemy_sprite_position)
+                    
                     self.draw_enemy_name(self.getEnemy().getEnemy_name())  # Draw enemy name
                     self.draw_health_bar(self.getChar_health(), selected_character.getHealth(), (10, 10), (200, 20), (0, 255, 0))  # Player health bar
                     self.draw_health_bar(self.getEnemy_hp(), enemy.getEnemy_hp(), (self.getScreen().get_width() - 210, 10), (200, 20), (255, 0, 0))  # Enemy health bar
@@ -316,21 +330,28 @@ class Combat(Character):
                     self.draw_buttons(self.buttons, self.button_colors, self.button_texts)
                     pygame.display.flip()
 
+                    attack_cooldown = 1000  # 1 second cooldown
+
+                    # Track the time of the last attack
+                    last_attack_time = 0
+
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
                             pygame.quit()
                             quit()
                         elif event.type == pygame.MOUSEBUTTONDOWN:
+                            current_time = pygame.time.get_ticks()
                             mouse_pos = event.pos
                             action = self.check_button_click(mouse_pos, self.buttons)
-                            if action:
+                            if action and current_time - last_attack_time >= attack_cooldown:
                                 self.add_message(f"Player selected: {self.button_texts[action]}")
                                 if action == 'attack1':
-                                    damage = random.randint(10, 20)
+                                    damage = random.randint(15, 20)
                                 elif action == 'attack2':
-                                    damage = random.randint(20, 30)
+                                    damage = random.randint(25, 30)
                                 self.setEnemy_hp(max(0, self.getEnemy_hp() - damage))
                                 player_turn = False  # Switch to enemy's turn
+                                last_attack_time = current_time  # Update the last attack time
                         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                             running = False  # Exit combat loop
 
@@ -345,6 +366,11 @@ class Combat(Character):
             # Update messages
             self.update_messages()
             self.getScreen().fill((31, 36, 33))  # Clear screen for the next frame
+
+            # Draw player and enemy sprites again
+            self.getScreen().blit(self.player_sprite, player_sprite_position)
+            self.getScreen().blit(self.enemy_sprite, enemy_sprite_position)
+            
             self.draw_enemy_name(self.getEnemy().getEnemy_name())
             self.draw_health_bar(self.getChar_health(), selected_character.getHealth(), (10, 10), (200, 20), (0, 255, 0))
             self.draw_health_bar(self.getEnemy_hp(), enemy.getEnemy_hp(), (self.getScreen().get_width() - 210, 10), (200, 20), (255, 0, 0))
@@ -359,8 +385,10 @@ class Combat(Character):
             self.setTurn_order(self.getTurn_order()[::-1])
 
         # End of combat
-        # End of combat
         self.add_message("Combat Ended!")
+        selected_character.gain_experience(enemy.getEnemy_exp(), self.__screen)
+        self.add_message(f"Experience Gained: {enemy.getEnemy_exp()}")
+
         while True:
             self.getScreen().fill((31, 36, 33))  # Background color
             self.draw_enemy_name(self.getEnemy().getEnemy_name())  # Redraw enemy name
@@ -394,7 +422,11 @@ class Combat(Character):
                     mouse_pos = event.pos
                     action = self.check_button_click(mouse_pos, self.confirm_buttons)
                     if action == 'continue':
-                        return  # Exit combat
+                        # Clear or hide combat sprites before exiting
+                        if result_image == self.__victory_image:
+                            return (True)
+                        else:
+                            return (False) # Exit combat and return to the previous state (e.g., the map)
                     elif action == 'exit':
                         pygame.quit()
                         quit()

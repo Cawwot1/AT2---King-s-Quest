@@ -1,20 +1,14 @@
 # Attributes
-__victory_image = None
-__defeat_image = None
+__enemy_exp = None
 
 # Constructor
-def __init__(self, victory_image, defeat_image):
-    self.setVictory_image(victory_image)
-    self.setDefeat_image(defeat_image)
+def __init__(self, enemy_exp):
+    self.setEnemy_exp(enemy_exp)
 
 # Getters
-def getVictory_image(self):
-    return self.__victory_image
-def getDefeat_image(self):
-    return self.__defeat_image
+def getEnemy_exp(self):
+    return self.__enemy_exp
 
 # Setters
-def setVictory_image(self, victory_image):
-    self.__victory_image = victory_image
-def setDefeat_image(self, defeat_image):
-    self.__defeat_image = defeat_image
+def setEnemy_exp(self, enemy_exp):
+    self.__enemy_exp = enemy_exp

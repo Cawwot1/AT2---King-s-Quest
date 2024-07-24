@@ -24,7 +24,9 @@ class Create_Enemy():
             30, #Defence (negatges __ % dmg)
             10, #Speed
             "level1", #Type
-            "Bandit" #Name
+            "Bandit", #Name
+            "assets/enemies/bandit.png", #enemy sprite
+            20 #exp given when defeated
         )
     
     def Goblin():
@@ -34,7 +36,9 @@ class Create_Enemy():
             15, #Defence
             5, #Speed
             "level1", #Type
-            "Goblin" #Name
+            "Goblin", #Name
+            "assets/enemies/goblin.png",
+            10
         )
 
     def Zombie():
@@ -44,5 +48,31 @@ class Create_Enemy():
             0, #Defence
             1, #Speed
             "level1", #Type
-            "Zombie" #Name
+            "Zombie", #Name
+            "assets/enemies/zombie.png",
+            20
+        )
+    
+    def Boss_boar():
+        return Enemy(
+            200, #Health
+            5, #Attack
+            10, #Defence
+            10, #Speed
+            "Boss", #Type
+            "Boss Boar", #Name
+            "assets/enemies/boss_boar.png",
+            150
+        )
+    
+    def MMmole():
+        return Enemy(
+            400, #Health
+            10, #Attack
+            10, #Defence
+            5, #Speed
+            "Boss", #Type
+            "MMmole", #Name
+            "assets/enemies/MMmole.png",
+            450
         )

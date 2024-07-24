@@ -1,9 +1,9 @@
 import pygame
 from enemy.create_enemy import Create_Enemy
 
-class Map_Woodlands:
+class Map_mudflats:
     """
-    Map/Area 1 -> Woodlands
+    Map/Area 2 -> Mudflats
     """
 
     # Attributes
@@ -15,15 +15,15 @@ class Map_Woodlands:
 
     # Constructor
     def __init__(self):
-        self.setNum_of_enemies(5)
-        self.setArea_level(1)
+        self.setNum_of_enemies(10)
+        self.setArea_level(2)
         self.setEnemies([
-            Create_Enemy.Bandit(),   # Create instances
+            Create_Enemy.Bandit(),   # Create instances #UPDAATE LATTTTER
             Create_Enemy.Goblin(),   # Create instances
             Create_Enemy.Zombie()    # Create instances
         ])
-        self.setBosses([Create_Enemy.Boss_boar()]) # Update Later
-        self.map_image = pygame.image.load('assets/forest_map.png').convert_alpha()
+        self.setBosses([Create_Enemy.MMmole()]) # Update Later
+        self.map_image = pygame.image.load('assets/mud_map.png').convert_alpha()
         self.map_width, self.map_height = self.map_image.get_size()
 
     # Getters
