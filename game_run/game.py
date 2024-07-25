@@ -5,23 +5,12 @@ import time
 import math
 
 from game_run.settings import *
-from equipment.weapons.bow import Bow
-from equipment.weapons.sword import Sword
-from equipment.weapons.dagger import Dagger
-from equipment.weapons.staff import Staff
-from equipment.armour import Armour
-from equipment.accessories import Accessories
-from equipment.create_equipment import Create_Equipment
 from character.character import Character
-from item_management.inventory import Inventory
 
 #Maps
 from maps.woodlands import Map_Woodlands
 from maps.mudflats import Map_mudflats
 from maps.dungeon import Map_dungeon
-
-#Combat
-from enemy.create_enemy import Create_Enemy
 
 #Skills
 from character.attributes.skill import Skill
@@ -30,87 +19,142 @@ from character.attributes.skill import Skill
 from character.classes.character_class import CharacterSelection
 
 class Game:
-    def __init__(self):
-        self.__combat_finished = False
+   
+    #Attributes
+        #Map & UI
+    __screen_width = None
+    __screen_height = None
+    __map = None
+    __viewport_x = None
+    __viewport_y = None
 
+        #Class Selection
+    __character_selection = None
+
+        #Quit Button
+    __quit_button_image = None
+    __quit_button_rect = None
+
+        #Skill Button
+    __skills_button_image = None
+    __skills_button_rect = None
+
+        #Enemies on map
+    __enemy_group = None
+
+        #Other
+    __combat_finished = None
+    
+    def __init__(self):
         # Pygame config
         pygame.init()
-        self.screen_width = 1200
-        self.screen_height = 800
 
-        self.setScreen(pygame.display.set_mode((self.screen_width, self.screen_height)))
+            #UI & Display
+        self.setScreen_width(SCREEN_WIDTH)
+        self.setScreen_height(SCREEN_HEIGHT)
+        self.setScreen(pygame.display.set_mode((self.__screen_width, self.__screen_height)))
         pygame.display.set_caption(TITLE)
         self.setClock(pygame.time.Clock())
         self.setRunning(True)
         self.setAll_sprites(pygame.sprite.Group())
+        #Viewport Position
+        self.setViewport_x(0)
+        self.setViewport_y(0)
 
-        #Player Initialised
+            #Map
+        self.setMap(Map_Woodlands())
+
+            #Player Initialised
         self.setPlayer_list([])
-        spawn_position = (self.screen_width // 2, self.screen_height // 2)
+        spawn_position = (self.__screen_width // 2, self.__screen_height // 2)
         self.setSelected_player(self.create_character("Player", "Warrior", 30, spawn_position))
-
-        self.map = Map_Woodlands()
-
         self.__all_sprites.add(self.__selected_player)
+            
+            #Initialize Character Selection
+        self.setCharacter_selection(CharacterSelection(self.__screen, self.__clock))
+        
+            #Quit Button
+        self.setQuit_button_image(pygame.image.load('assets/quit_button.png'))
+        self.setQuit_button_rect(self.__quit_button_image.get_rect(topleft=(10, 10)))
 
-        # Initialize Character Selection
-        self.character_selection = CharacterSelection(self.__screen, self.__clock)
-
-        #Quit Button
-        self.quit_button_image = pygame.image.load('assets/quit_button.png')
-        self.quit_button_rect = self.quit_button_image.get_rect(topleft=(10, 10))
-
-        #Skill Button
-        self.skills_button_image = pygame.image.load('assets/skills_button.png')
-        self.skills_button_rect = self.skills_button_image.get_rect(topleft=(10, 100)) #84 pixels height + 20 pixels spacing
-        #Skill
-        self.__skill_screen = Skill.show_skill_point_screen
-
-        #Enemies
-        self.enemy_group = pygame.sprite.Group()  # Create a group for enemies
+            #Skill Button
+        self.setSkills_button_image(pygame.image.load('assets/skills_button.png'))
+        self.setSkills_button_rect(self.__skills_button_image.get_rect(topleft=(10, 100)))
+        
+            #Enemies & Combat
+        self.setEnemy_group(pygame.sprite.Group())  #Create a group for enemies
+        self.setCombat_finished(False)
         self.generate_enemies(5)  # Generate 5 enemies for example
 
-        # Define viewport position
-        self.viewport_x = 0
-        self.viewport_y = 0
+    #Getters
 
-    # Getters
-    def getScreen(self):
-        return self.__screen
+        #UI & Display
+    def getScreen_width(self): return self.__screen_width
+    def getScreen_height(self): return self.__screen_height
+    def getScreen(self): return self.__screen
+    def getClock(self): return self.__clock
+    def getRunning(self): return self.__running
+    def getAll_sprites(self): return self.__all_sprites
+    #Viewport Position
+    def getViewport_x(self): return self.__viewport_x
+    def getViewport_y(self): return self.__viewport_y
 
-    def getClock(self):
-        return self.__clock
+        #Map
+    def getMap(self): return self.__map
 
-    def getRunning(self):
-        return self.__running
+        #Player
+    def getPlayer_list(self): return self.__player_list
+    def getSelected_player(self): return self.__selected_player
 
-    def getAll_sprites(self):
-        return self.__all_sprites
-
-    def getPlayer_list(self):
-        return self.__player_list
-
-    def getSelected_player(self):
-        return self.__selected_player
+        #Initialize Character Selection
+    def getCharacter_selection(self): return self.__character_selection
+    
+        #Quit Button
+    def getQuit_button_image(self): return self.__quit_button_image
+    def getQuit_button_rect(self): return self.__quit_button_rect
+    
+        #Skill Button
+    def getSkills_button_image(self): return self.__skills_button_image
+    def getSkills_button_rect(self): return self.__skills_button_rect
+        
+        #Enemies & Combat
+    def getEnemy_group(self): return self.__enemy_group
+    def getCombat_finished(self): return self.__combat_finished
 
     # Setters
-    def setScreen(self, screen):
-        self.__screen = screen
 
-    def setClock(self, clock):
-        self.__clock = clock
+        #UI & Display
+    def setScreen_width(self, screen_width): self.__screen_width = screen_width
+    def setScreen_height(self, screen_height): self.__screen_height = screen_height
+    def setScreen(self, screen): self.__screen = screen
+    def setClock(self, clock): self.__clock = clock
+    def setRunning(self, running): self.__running = running
+    def setAll_sprites(self, all_sprites): self.__all_sprites = all_sprites
+    #Viewport Position
+    def setViewport_x(self, viewport_x): self.__viewport_x = viewport_x
+    def setViewport_y(self, viewport_y): self.__viewport_y = viewport_y
 
-    def setRunning(self, running):
-        self.__running = running
+        #Player
+    def setPlayer_list(self, player_list): self.__player_list = player_list
+    def setSelected_player(self, selected_player): self.__selected_player = selected_player
 
-    def setAll_sprites(self, all_sprites):
-        self.__all_sprites = all_sprites
+        #Map
+    def setMap(self, map): self.__map = map
+    
+        #Character Selection
+    def setCharacter_selection(self, character_selection): self.__character_selection = character_selection
+    
+        #Quit Button
+    def setQuit_button_image(self, quit_button_image): self.__quit_button_image = quit_button_image
+    def setQuit_button_rect(self, quit_button_rect): self.__quit_button_rect = quit_button_rect
 
-    def setPlayer_list(self, player_list):
-        self.__player_list = player_list
+        #Skill Button
+    def setSkills_button_image(self, skills_button_image): self.__skills_button_image = skills_button_image
+    def setSkills_button_rect(self, skills_button_rect): self.__skills_button_rect = skills_button_rect
 
-    def setSelected_player(self, selected_player):
-        self.__selected_player = selected_player
+        #Enemies & Combat
+    def setEnemy_group(self, enemy_group): self.__enemy_group = enemy_group
+    def setCombat_finished(self, combat_finished): self.__combat_finished = combat_finished
 
     # Behaviours
     def create_character(self, name, character_class, inventory_cap, pos):
@@ -124,7 +168,7 @@ class Game:
             return Character(name, character_class, inventory_cap, pos, self.__all_sprites)
 
     def run(self):
-        selected_character = self.character_selection.run()
+        selected_character = self.__character_selection.run()
         self.__selected_player.setImage(pygame.image.load(f'assets/classes/{selected_character.lower()}.png').convert_alpha())
     
         if selected_character is None:
@@ -145,7 +189,7 @@ class Game:
                 # Draw map and entities
                 self.draw_map()
                 self.__all_sprites.draw(self.__screen)
-                self.enemy_group.draw(self.__screen)
+                self.__enemy_group.draw(self.__screen)
 
                 #Check if no more enemies are no (so boss can spawn)
         
@@ -169,32 +213,32 @@ class Game:
                     self.setRunning(False)
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                if self.quit_button_rect.collidepoint(mouse_pos):
+                if self.__quit_button_rect.collidepoint(mouse_pos):
                     self.setRunning(False)  # Quit the game
-                elif self.skills_button_rect.collidepoint(mouse_pos):
+                elif self.__skills_button_rect.collidepoint(mouse_pos):
                     self.__selected_player.skills(self.__screen, self.__clock)  # Open skill screen
 
     def update_viewport(self):
         player_rect = self.__selected_player.rect
-        map_width, map_height = self.map.get_map_size()
+        map_width, map_height = self.__map.get_map_size()
         
         # Update viewport position based on player position
-        self.viewport_x = max(0, min(player_rect.centerx - self.screen_width // 2, map_width - self.screen_width))
-        self.viewport_y = max(0, min(player_rect.centery - self.screen_height // 2, map_height - self.screen_height))
+        self.setViewport_x(max(0, min(player_rect.centerx - self.__screen_width // 2, map_width - self.__screen_width)))
+        self.setViewport_y(max(0, min(player_rect.centery - self.__screen_height // 2, map_height - self.__screen_height)))
 
         # Clamp player position to viewport boundaries
-        self.__selected_player.rect.centerx = max(self.viewport_x + self.__selected_player.rect.width // 2, min(self.__selected_player.rect.centerx, self.viewport_x + self.screen_width - self.__selected_player.rect.width // 2))
-        self.__selected_player.rect.centery = max(self.viewport_y + self.__selected_player.rect.height // 2, min(self.__selected_player.rect.centery, self.viewport_y + self.screen_height - self.__selected_player.rect.height // 2))
+        self.__selected_player.rect.centerx = max(self.__viewport_x + self.__selected_player.rect.width // 2, min(self.__selected_player.rect.centerx, self.__viewport_x + self.__screen_width - self.__selected_player.rect.width // 2))
+        self.__selected_player.rect.centery = max(self.__viewport_y + self.__selected_player.rect.height // 2, min(self.__selected_player.rect.centery, self.__viewport_y + self.__screen_height - self.__selected_player.rect.height // 2))
 
     """"
     Combat Functions
     """
 
     def generate_enemies(self, num_enemies):
-        map_width, map_height = self.map.get_map_size()
+        map_width, map_height = self.__map.get_map_size()
         player_x, player_y = self.__selected_player.rect.center  # Get the player's position
 
-        if self.map.getNum_of_enemies() <= 0:
+        if self.__map.getNum_of_enemies() <= 0:
                     self.spawn_boss()
 
         for _ in range(num_enemies):
@@ -209,7 +253,7 @@ class Game:
                     break # -> So that enemies cannot spawn on top of player
 
             # Choose a random enemy type from the map's enemies
-            enemy_data = random.choice(self.map.getEnemies())
+            enemy_data = random.choice(self.__map.getEnemies())
             
             # Create a sprite for the enemy
             enemy_image = pygame.image.load(enemy_data.getEnemy_image()).convert_alpha()
@@ -221,25 +265,25 @@ class Game:
             enemy_sprite.enemy_data = enemy_data  # Add this line to store the enemy data
             
             # Add the sprite to the group
-            self.enemy_group.add(enemy_sprite)
+            self.__enemy_group.add(enemy_sprite)
 
     def spawn_boss(self):
-        boss_data = self.map.getBosses()  # Ensure this is a list of boss objects
+        boss_data = self.__map.getBosses()  # Ensure this is a list of boss objects
         if boss_data:
             boss = random.choice(boss_data)  # Choose a random boss from the list
             boss_image = pygame.image.load(boss.getEnemy_image()).convert_alpha()  # Adjust as needed
             boss_sprite = pygame.sprite.Sprite()
             boss_sprite.image = boss_image
-            boss_sprite.rect = boss_image.get_rect(center=(self.screen_width // 2, self.screen_height // 2))  # Center the boss on screen
+            boss_sprite.rect = boss_image.get_rect(center=(self.__screen_width // 2, self.__screen_height // 2))  # Center the boss on screen
             
             # Set custom attributes on the sprite to store boss data
             boss_sprite.boss_data = boss
             
             # Add the sprite to the group
-            self.enemy_group.add(boss_sprite)
+            self.__enemy_group.add(boss_sprite)
 
     def check_combat(self):
-        for enemy_sprite in self.enemy_group:
+        for enemy_sprite in self.__enemy_group:
             if pygame.sprite.collide_rect(self.__selected_player, enemy_sprite) and not self.__combat_finished:
                 # Access the enemy or boss data from the sprite
                 if hasattr(enemy_sprite, 'enemy_data'):
@@ -251,54 +295,47 @@ class Game:
                 self.__combat_finished = self.__selected_player.combat(self.getScreen(), combat_data)
 
                 if self.__combat_finished:
-                    print("efewoifIFEOHWFHEWFHWOE")
                     if hasattr(enemy_sprite, 'boss_data'):
                         # Move to the next map after defeating the boss
                         self.transition_to_next_map()
                     else:
-                        print("iefiefoowuhhou")
-                        self.enemy_group.empty()  # Resets Enemies on Map
-                        self.map.setNum_of_enemies(self.map.getNum_of_enemies() - 1)  # Reduces number of enemies by 1
-                        self.generate_enemies(self.map.getNum_of_enemies())  # Regenerates the enemies
+                        self.__enemy_group.empty()  # Resets Enemies on Map
+                        self.__map.setNum_of_enemies(self.__map.getNum_of_enemies() - 1)  # Reduces number of enemies by 1
+                        self.generate_enemies(self.__map.getNum_of_enemies())  # Regenerates the enemies
                     self.__combat_finished = False  # Reset combat state
                 else:
                     if pygame.sprite.collide_rect(self.__selected_player, enemy_sprite) and self.__combat_finished == False:
                         #If player is defeated, they will be moved down 100 pixels to stop them going to combat again
                         self.__selected_player.rect.y += 100
-                        self.enemy_group.empty()
+                        self.__enemy_group.empty()
                         self.generate_enemies(0)
                         
-
-
     def transition_to_next_map(self):
-        print("next map")
-        self.enemy_group.empty()
+        self.__enemy_group.empty()
 
-        if self.map.getArea_level() == 1:
-            print("mudflats")
-            self.map = Map_mudflats() # Switch to the Mudflats map
-        elif self.map.getArea_level() == 2:
-            self.map = Map_dungeon()  # Switch to the Dungeon map
+        if self.__map.getArea_level() == 1:
+            self.__map = Map_mudflats() # Switch to the Mudflats map
+        elif self.__map.getArea_level() == 2:
+            self.__map = Map_dungeon()  # Switch to the Dungeon map
 
-        self.generate_enemies(self.map.getNum_of_enemies())  # Generate enemies for the new map
-        self.__selected_player.rect.center = (self.screen_width // 2, self.screen_height // 2)  # Reset player position
-        self.__combat_finished = False  # Reset combat state
-
+        self.generate_enemies(self.__map.getNum_of_enemies())  # Generate enemies for the new map
+        self.__selected_player.rect.center = (self.__screen_width // 2, self.__screen_height // 2)  # Reset player position
+        self.setCombat_finished(False)  # Reset combat state
 
     """
     Draw (Generate Text & Visuals e.g. Maps) Functions
     """
-
+    
     def draw_map(self):
-        map_sprite = self.map.getMap_sprite()
-        map_width, map_height = self.map.get_map_size()
+        map_sprite = self.__map.getMap_sprite()
+        map_width, map_height = self.__map.get_map_size()
 
         # Draw only the visible part of the map
-        map_rect = pygame.Rect(self.viewport_x, self.viewport_y, self.screen_width, self.screen_height)
-        self.__screen.blit(map_sprite, (-self.viewport_x, -self.viewport_y), map_rect)
+        map_rect = pygame.Rect(self.__viewport_x, self.__viewport_y, self.__screen_width, self.__screen_height)
+        self.__screen.blit(map_sprite, (-self.__viewport_x, -self.__viewport_y), map_rect)
 
     def draw_quit_button(self):
-        self.__screen.blit(self.quit_button_image, self.quit_button_rect)
+        self.__screen.blit(self.__quit_button_image, self.__quit_button_rect)
 
     def draw_skills_button(self):
-        self.__screen.blit(self.skills_button_image, self.skills_button_rect)
+        self.__screen.blit(self.__skills_button_image, self.__skills_button_rect)

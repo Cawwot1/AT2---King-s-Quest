@@ -63,40 +63,4 @@ class Inventory:
         self.__consumables = new_consumables
 
     #Behaviours
-    def inventory_info(self):
-        for item in self.__equipment: #Formatting Equipment
-            self.__item_num += 1
-            self.__equip_format.append(f"{self.__item_num}. {item.getName()}\n")
-        self.__item_num = 0
-        
-        for item in self.__consumables: #Formatting Consumables
-            self.__item_num += 1
-            self.__equip_format.append(f"{self.__item_num}. {item.getName()}\n")
-        self.__item_num = 0
-
-        return (f"\n\033[1mEquipment:\033[0m\n{''.join(self.__equip_format)}\n"
-                f"\n\033[1mConsumables:\033[0m\n{''.join(self.__consume_format)}")
-    
-    def add_item(self, item):
-        self.__item_type = item.getItemType()
-        if self.__item_type == "equipment":
-            self.__equipment.append(item)
-            print(f"Stored {item.getName()} in Equipment") #remove when visuals
-        elif self.__item_type == "consumables":
-            self.__consumables.append(item)
-            print(f"Stored {item.getName()} in Consumables") #remove when visuals
-        
-    def find_item(self, item_name):
-        """
-        Finds item in inventory
-        Inputs: name of item
-        Outputs: 
-        - Item object if item_name in found in inventory
-        - False if no objects match object name
-        """
-        for sublist in self.__inventory: #self.__inventory is a list that stores lists
-            for item in sublist:
-                if item.getName() == item_name:
-                    return item
-        return False
     
