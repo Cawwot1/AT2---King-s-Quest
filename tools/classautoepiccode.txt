@@ -1,26 +1,62 @@
 # Attributes
-__attack_lv = None
-__defence_lv = None
-__a = None
+__screen = None
+__clock = None
+__screen_width = None
+__screen_height = None
+__selected_class = None
+__character_buttons = None
+__character_positions = None
+__description_boxes = None
+__character_info = None
 
 # Constructor
-def __init__(self, attack_lv, defence_lv, a):
-    self.setAttack_lv(attack_lv)
-    self.setDefence_lv(defence_lv)
-    self.setA(a)
+def __init__(self, screen, clock, screen_width, screen_height, selected_class, character_buttons, character_positions, description_boxes, character_info):
+    self.setScreen(screen)
+    self.setClock(clock)
+    self.setScreen_width(screen_width)
+    self.setScreen_height(screen_height)
+    self.setSelected_class(selected_class)
+    self.setCharacter_buttons(character_buttons)
+    self.setCharacter_positions(character_positions)
+    self.setDescription_boxes(description_boxes)
+    self.setCharacter_info(character_info)
 
 # Getters
-def getAttack_lv(self):
-    return self.__attack_lv
-def getDefence_lv(self):
-    return self.__defence_lv
-def getA(self):
-    return self.__a
+def getScreen(self):
+    return self.__screen
+def getClock(self):
+    return self.__clock
+def getScreen_width(self):
+    return self.__screen_width
+def getScreen_height(self):
+    return self.__screen_height
+def getSelected_class(self):
+    return self.__selected_class
+def getCharacter_buttons(self):
+    return self.__character_buttons
+def getCharacter_positions(self):
+    return self.__character_positions
+def getDescription_boxes(self):
+    return self.__description_boxes
+def getCharacter_info(self):
+    return self.__character_info
 
 # Setters
-def setAttack_lv(self, attack_lv):
-    self.__attack_lv = attack_lv
-def setDefence_lv(self, defence_lv):
-    self.__defence_lv = defence_lv
-def setA(self, a):
-    self.__a = a
+def setScreen(self, screen):
+    self.__screen = screen
+def setClock(self, clock):
+    self.__clock = clock
+def setScreen_width(self, screen_width):
+    self.__screen_width = screen_width
+def setScreen_height(self, screen_height):
+    self.__screen_height = screen_height
+def setSelected_class(self, selected_class):
+    self.__selected_class = selected_class
+def setCharacter_buttons(self, character_buttons):
+    self.__character_buttons = character_buttons
+def setCharacter_positions(self, character_positions):
+    self.__character_positions = character_positions
+def setDescription_boxes(self, description_boxes):
+    self.__description_boxes = description_boxes
+def setCharacter_info(self, character_info):
+    self.__character_info = character_info
