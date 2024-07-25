@@ -5,62 +5,40 @@ from abc import ABC, abstractmethod
 class Weapon(Equipment, ABC):
 
     #Atributes
-    _piercing = None
-    _damage = None
-    _weapon_type = None
-    _isElement_damage = bool
-    _element_damage = None
-    _element = None
+    __piercing = None
+    __damage = None
+    __weapon_type = None
+    __isElement_damage = bool
+    __element_damage = None
+    __element = None
 
 
     def __init__(self, name, description, quality, rarity, level_req, damage, piercing, weapon_type, isElement_damage, element_damage, element, item_type):
         super().__init__(name, description, quality, rarity, level_req, item_type)
-        self._piercing = piercing
-        self._damage = damage
-        self._weapon_type = weapon_type
-        self._isElement_damage = isElement_damage
-        self._element_damage = element_damage
-        self._element = element
-    # Accessors
+        self.setPiercing(piercing)
+        self.setDamage(damage)
+        self.setWeaponType(weapon_type)
+        self.setIsElementDamage(isElement_damage)
+        self.setElementDamage(element_damage)
+        self.setElement(element)
+    
+    #Getters
+        #Combat Stats
+    def getDamage(self): return self.__damage
+    def getPiercing(self): return self.__piercing
+    def getIsElementDamage(self): return self.__isElement_damage
+    def getElementDamage(self): return self.__element_damage
+        #Other
+    def getWeaponType(self): return self.__weapon_type
+    def getElement(self): return self.__element
 
-    def getDamage(self):
-        return self._damage
-
-    def getPiercing(self):
-        return self._piercing
-
-    def getWeaponType(self):
-        return self._weapon_type
-
-    def getIsElementDamage(self):
-        return self._isElement_damage
-
-    def getElementDamage(self):
-        return self._element_damage
-
-    def getElement(self):
-        return self._element
-
-    # Mutators
-
-    def setDamage(self, new_damage):
-        self._damage = new_damage
-
-    def setPiercing(self, new_piercing):
-        self._piercing = new_piercing
-
-    def setWeaponType(self, new_weapon_type):
-        self._weapon_type = new_weapon_type
-
-    def setIsElementDamage(self, new_isElement_damage):
-        self._isElement_damage = new_isElement_damage
-
-    def setElementDamage(self, new_element_damage):
-        self._element_damage = new_element_damage
-
-    def setElement(self, new_element):
-        self._element = new_element
-
+    #Setters
+    def setDamage(self, new_damage): self.__damage = new_damage
+    def setPiercing(self, new_piercing): self.__piercing = new_piercing
+    def setWeaponType(self, new_weapon_type): self.__weapon_type = new_weapon_type
+    def setIsElementDamage(self, new_isElement_damage): self.__isElement_damage = new_isElement_damage
+    def setElementDamage(self, new_element_damage): self.__element_damage = new_element_damage
+    def setElement(self, new_element): self.__element = new_element
 
     @abstractmethod
     def attack_mult(self, target):
@@ -70,26 +48,4 @@ class Weapon(Equipment, ABC):
     @abstractmethod
     def block_mult(self, target):
         #Abtracted Method -> Modified in Subclasses
-        pass
-
-    @abstractmethod
-    def info(self): #Calls from Parent Class (Inherited Behaviours)
-        damage_info = f"Damage: {self._damage}\nWeapon Type: {self._weapon_type}\nPiercing: {self._piercing}"
-        if self._isElement_damage:
-            return (f"{super().info()}\n"
-                    f"Damage Type: {self._element} & Physical\n"
-                    f"{self._element} Elemental Damage: {self._element_damage}\n"
-                    f"{damage_info}")
-        else:
-            return (f"{super().info()}\n"
-                    f"Damage Type: Physical Damage\n"
-                    f"{damage_info}")
-
-                
-    #Possible Expasion ... If i have the time
-
-    def killCounter(self):
-        pass
-
-    def upgrades(self):
         pass

@@ -1,4 +1,5 @@
 class Enemy:
+    #Constructs Enemy objects
 
     #atributes
     __enemy_hp = None
@@ -24,38 +25,22 @@ class Enemy:
         
     
     # Getters
-    def getEnemy_hp(self):
-        return self.__enemy_hp
-    def getEnemy_attack(self):
-        return self.__enemy_attack
-    def getEnemy_speed(self):
-        return self.__enemy_speed 
-    def getEnemy_type(self):
-        return self.__enemy_type
-    def getEnemy_name(self):
-        return self.__enemy_name
-    def getEnemy_defence(self):
-        return self.__enemy_defence
-    def getEnemy_image(self):
-        return self.__enemy_image
-    def getEnemy_exp(self):
-        return self.__enemy_exp
+    def getEnemy_hp(self): return self.__enemy_hp
+    def getEnemy_attack(self): return self.__enemy_attack
+    def getEnemy_speed(self): return self.__enemy_speed 
+    def getEnemy_type(self): return self.__enemy_type
+    def getEnemy_name(self): return self.__enemy_name
+    def getEnemy_defence(self): return self.__enemy_defence
+    def getEnemy_image(self): return self.__enemy_image
+    def getEnemy_exp(self): return self.__enemy_exp
 
 
     # Mutators
-    def setEnemy_hp(self, enemy_hp):
-        self.__enemy_hp = enemy_hp
-    def setEnemy_attack(self, enemy_attack):
-        self.__enemy_attack = enemy_attack
-    def setEnemy_speed(self, enemy_speed):
-        self.__enemy_speed = enemy_speed
-    def setEnemy_type(self, enemy_type):
-        self.__enemy_type = enemy_type
-    def setEnemy_name(self, enemy_name):
-        self.__enemy_name = enemy_name
-    def setEnemy_defence(self, enemy_defence):
-        self.__enemy_defence = enemy_defence
-    def setEnemy_image(self, enemy_image):
-        self.__enemy_image = enemy_image
-    def setEnemy_exp(self, enemy_exp):
-        self.__enemy_exp = enemy_exp
+    def setEnemy_hp(self, enemy_hp): self.__enemy_hp = enemy_hp
+    def setEnemy_attack(self, enemy_attack): self.__enemy_attack = enemy_attack
+    def setEnemy_speed(self, enemy_speed): self.__enemy_speed = enemy_speed
+    def setEnemy_type(self, enemy_type): self.__enemy_type = enemy_type
+    def setEnemy_name(self, enemy_name): self.__enemy_name = enemy_name
+    def setEnemy_defence(self, enemy_defence): self.__enemy_defence = enemy_defence
+    def setEnemy_image(self, enemy_image): self.__enemy_image = enemy_image
+    def setEnemy_exp(self, enemy_exp): self.__enemy_exp = enemy_exp

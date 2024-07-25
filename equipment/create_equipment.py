@@ -6,25 +6,9 @@ from equipment.accessories import Accessories
 from equipment.equipment import Equipment
 from equipment.armour import Armour
 
-
+#Factory Class
 class Create_Equipment:
-    #choose equipment from presets
-
-    __selection = None
     
-    def __init__ (self, selection):
-        self.__selection = selection
-
-    # Accessors
-    def getSelection(self):
-        return self.__selection
-    
-    #Mutators
-    def setSelection(self, new_selection):
-        self.__selection = new_selection
-
-    #Behaviours -> Item Creation Presets
-
     #Weapons
     def Basic_Bow():
         return Bow("Basic Bow", #name

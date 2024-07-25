@@ -12,65 +12,35 @@ class Armour(Equipment):
     _ability_list = None
     _armour_piece = None
 
+    #Constructor
     def __init__(self, name, description, quality, rarity, level_req, defence, hardness, armour_piece, elemental_def, abilities, item_type):
         super().__init__(name, description, quality, rarity, level_req, item_type)
-        self._defence = defence
-        self._hardness = hardness
-        self._armour_piece = armour_piece
-        self._elemental_def = elemental_def
-        self._abilities = abilities.split(" ")
-        self._ability_list = []
-        for ability in self._abilities:
-            self._ability_list.append(getattr(Ability_list, ability))
+            #Stats
+        self.setDefence(defence)
+        self.setHardness(hardness)
+        self.setElemental_def(elemental_def)
+            #Other
+        self.setAbilities(abilities.split(" "))
+        self.setAbility_list([])
+        self.setArmour_piece(armour_piece)
 
-    # Accessors
+        for ability in self.__abilities:
+            self.__ability_list.append(getattr(Ability_list, ability))
 
-    def getDefence(self):
-        return self._defence
+    #Getters
+        #Stats
+    def getDefence(self): return self.__defence
+    def getHardness(self): return self.__hardness
+    def getElemental_def(self): return self.__elemental_def
+        #Other
+    def getAbilities(self): return self.__abilities
+    def getAbility_list(self): return self.__ability_list
+    def getArmour_piece(self): return self.__armour_piece
 
-    def getHardness(self):
-        return self._hardness
-    
-    def getPiece(self):
-        return self._armour_piece
-
-    def getElementalDef(self):
-        return self._elemental_def
-    
-    def getAbilitesList(self):
-        return self._ability_list
-
-    # Mutators
-
-    def setDefence(self, new_defence):
-        self._defence = new_defence
-
-    def setHardness(self, new_hardness):
-        self._hardness = new_hardness
-
-    def setPeice(self, new_armour_piece):
-        self._armour_piece = new_armour_piece
-
-    def setElementalDef(self, new_elemental_def):
-        self._elemental_def = new_elemental_def
-
-    def setAbilities(self, new_ability_list):
-        self._abilities = new_ability_list
-    
-    #Methods
-    
-    def info(self): #Calls from Parent Class (Inherited Behaviours)
-        return (f"{super().info()}\n"
-                f"Defence: {self._defence}\n"
-                f"Hardness: {self._hardness}\n"
-                f"Armour Piece: {self._armour_piece}\n"
-                f"Elemental Defence: {self._elemental_def}\n"
-                f"Abilities: {self._abilities}")
-                
-    #Possible Expasion ... If i have the time
-
-    def killCounter(self):
-        pass
-
-    def upgrades(self):
-        pass
+    #Setters
+    def setDefence(self, defence): self.__defence = defence
+    def setHardness(self, hardness): self.__hardness = hardness
+    def setElemental_def(self, elemental_def): self.__elemental_def = elemental_def
+    def setAbilities(self, abilities): self.__abilities = abilities
+    def setAbility_list(self, ability_list): self.__ability_list = ability_list
+    def setArmour_piece(self, armour_piece): self.__armour_piece = armour_piece

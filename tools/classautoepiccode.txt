@@ -1,44 +1,56 @@
 # Attributes
 __name = None
-__character_class = None
-__rect = None
-__direction = None
-__movement_speed = None
-__d = None
+__description = None
+__quality = None
+__rarity = None
+__level_req = None
+__element = None
+__piercing = None
+__item_type = None
 
 # Constructor
-def __init__(self, name, character_class, rect, direction, movement_speed, d):
+def __init__(self, name, description, quality, rarity, level_req, element, piercing, item_type):
     self.setName(name)
-    self.setCharacter_class(character_class)
-    self.setRect(rect)
-    self.setDirection(direction)
-    self.setMovement_speed(movement_speed)
-    self.setD(d)
+    self.setDescription(description)
+    self.setQuality(quality)
+    self.setRarity(rarity)
+    self.setLevel_req(level_req)
+    self.setElement(element)
+    self.setPiercing(piercing)
+    self.setItem_type(item_type)
 
 # Getters
 def getName(self):
     return self.__name
-def getCharacter_class(self):
-    return self.__character_class
-def getRect(self):
-    return self.__rect
-def getDirection(self):
-    return self.__direction
-def getMovement_speed(self):
-    return self.__movement_speed
-def getD(self):
-    return self.__d
+def getDescription(self):
+    return self.__description
+def getQuality(self):
+    return self.__quality
+def getRarity(self):
+    return self.__rarity
+def getLevel_req(self):
+    return self.__level_req
+def getElement(self):
+    return self.__element
+def getPiercing(self):
+    return self.__piercing
+def getItem_type(self):
+    return self.__item_type
 
 # Setters
 def setName(self, name):
     self.__name = name
-def setCharacter_class(self, character_class):
-    self.__character_class = character_class
-def setRect(self, rect):
-    self.__rect = rect
-def setDirection(self, direction):
-    self.__direction = direction
-def setMovement_speed(self, movement_speed):
-    self.__movement_speed = movement_speed
-def setD(self, d):
-    self.__d = d
+def setDescription(self, description):
+    self.__description = description
+def setQuality(self, quality):
+    self.__quality = quality
+def setRarity(self, rarity):
+    self.__rarity = rarity
+def setLevel_req(self, level_req):
+    self.__level_req = level_req
+def setElement(self, element):
+    self.__element = element
+def setPiercing(self, piercing):
+    self.__piercing = piercing
+def setItem_type(self, item_type):
+    self.__item_type = item_type

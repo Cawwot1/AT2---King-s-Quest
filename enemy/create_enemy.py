@@ -1,19 +1,18 @@
 from enemy.enemy import Enemy
 
+#Factory Class
 class Create_Enemy():
 
     __selection = None
 
     def __init__(self):
-        self.__selection = None
+        self.setSelection(None)
     
     # Accessors
-    def getSelection(self):
-        return self.__selection
+    def getSelection(self): return self.__selection
     
     #Mutators
-    def setSelection(self, new_selection):
-        self.__selection = new_selection
+    def setSelection(self, new_selection): self.__selection = new_selection
     
     #Behaviors -> Preset Enemy Stats
 
