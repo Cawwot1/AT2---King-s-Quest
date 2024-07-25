@@ -79,7 +79,7 @@ class Character(pygame.sprite.Sprite):
         self.inventory = Inventory(inventory_cap)
         
         # Character Sprite
-        self.image = pygame.image.load(f'assets/classes/{character_class.lower()}.png').convert_alpha()
+        self.setImage(pygame.image.load(f'assets/classes/{character_class.lower()}.png').convert_alpha())
         self.rect = self.image.get_rect(center=pos)
         self.rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 
@@ -502,10 +502,10 @@ class Character(pygame.sprite.Sprite):
         explore = Explore(screen)
         explore.explore(self, screen)
 
-    def combat(self, screen, enemy, ):
+    def combat(self, screen, enemy):
         from character.actions.combat import Combat
-        combat = Combat(screen, self, enemy, )
-        return(combat.combat(self, enemy))
-    
+        combat_instance = Combat(screen, self, enemy)
+        return combat_instance.combat(self, enemy)
+
     def skills(self, screen, clock):
         return(self.__skills_instace.show_skill_point_screen(screen, clock))

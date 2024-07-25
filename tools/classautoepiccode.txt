@@ -1,14 +1,20 @@
 # Attributes
-__enemy_exp = None
+__player_sprite = None
+__enemy_sprite = None
 
 # Constructor
-def __init__(self, enemy_exp):
-    self.setEnemy_exp(enemy_exp)
+def __init__(self, player_sprite, enemy_sprite):
+    self.setPlayer_sprite(player_sprite)
+    self.setEnemy_sprite(enemy_sprite)
 
 # Getters
-def getEnemy_exp(self):
-    return self.__enemy_exp
+def getPlayer_sprite(self):
+    return self.__player_sprite
+def getEnemy_sprite(self):
+    return self.__enemy_sprite
 
 # Setters
-def setEnemy_exp(self, enemy_exp):
-    self.__enemy_exp = enemy_exp
+def setPlayer_sprite(self, player_sprite):
+    self.__player_sprite = player_sprite
+def setEnemy_sprite(self, enemy_sprite):
+    self.__enemy_sprite = enemy_sprite
