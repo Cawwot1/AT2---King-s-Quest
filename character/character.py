@@ -496,12 +496,6 @@ class Character(pygame.sprite.Sprite):
             pygame.display.flip()
 
     #Player Actions
-
-    def explore(self, screen):
-        from character.actions.explore import Explore
-        explore = Explore(screen)
-        explore.explore(self, screen)
-
     def combat(self, screen, enemy):
         from character.actions.combat import Combat
         combat_instance = Combat(screen, self, enemy)

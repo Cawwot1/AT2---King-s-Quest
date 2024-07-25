@@ -1,20 +1,26 @@
 # Attributes
-__player_sprite = None
-__enemy_sprite = None
+__attack_lv = None
+__defence_lv = None
+__a = None
 
 # Constructor
-def __init__(self, player_sprite, enemy_sprite):
-    self.setPlayer_sprite(player_sprite)
-    self.setEnemy_sprite(enemy_sprite)
+def __init__(self, attack_lv, defence_lv, a):
+    self.setAttack_lv(attack_lv)
+    self.setDefence_lv(defence_lv)
+    self.setA(a)
 
 # Getters
-def getPlayer_sprite(self):
-    return self.__player_sprite
-def getEnemy_sprite(self):
-    return self.__enemy_sprite
+def getAttack_lv(self):
+    return self.__attack_lv
+def getDefence_lv(self):
+    return self.__defence_lv
+def getA(self):
+    return self.__a
 
 # Setters
-def setPlayer_sprite(self, player_sprite):
-    self.__player_sprite = player_sprite
-def setEnemy_sprite(self, enemy_sprite):
-    self.__enemy_sprite = enemy_sprite
+def setAttack_lv(self, attack_lv):
+    self.__attack_lv = attack_lv
+def setDefence_lv(self, defence_lv):
+    self.__defence_lv = defence_lv
+def setA(self, a):
+    self.__a = a

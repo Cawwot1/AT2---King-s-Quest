@@ -20,8 +20,6 @@ from maps.woodlands import Map_Woodlands
 from maps.mudflats import Map_mudflats
 from maps.dungeon import Map_dungeon
 
-from character.actions.explore import Explore
-
 #Combat
 from enemy.create_enemy import Create_Enemy
 
@@ -46,8 +44,6 @@ class Game:
         self.setRunning(True)
         self.setAll_sprites(pygame.sprite.Group())
 
-        self.setExplore_instance(Explore(self.getScreen()))
-
         #Player Initialised
         self.setPlayer_list([])
         spawn_position = (self.screen_width // 2, self.screen_height // 2)
@@ -56,10 +52,6 @@ class Game:
         self.map = Map_Woodlands()
 
         self.__all_sprites.add(self.__selected_player)
-
-        self.last_explore_check = pygame.time.get_ticks()
-        self.explore_interval = 1000  # Check for exploration every 1 second
-        self.move_distance = 0
 
         # Initialize Character Selection
         self.character_selection = CharacterSelection(self.__screen, self.__clock)
@@ -95,9 +87,6 @@ class Game:
     def getAll_sprites(self):
         return self.__all_sprites
 
-    def getExplore_instance(self):
-        return self.__explore_instance
-
     def getPlayer_list(self):
         return self.__player_list
 
@@ -116,9 +105,6 @@ class Game:
 
     def setAll_sprites(self, all_sprites):
         self.__all_sprites = all_sprites
-
-    def setExplore_instance(self, explore_instance):
-        self.__explore_instance = explore_instance
 
     def setPlayer_list(self, player_list):
         self.__player_list = player_list
@@ -187,12 +173,6 @@ class Game:
                     self.setRunning(False)  # Quit the game
                 elif self.skills_button_rect.collidepoint(mouse_pos):
                     self.__selected_player.skills(self.__screen, self.__clock)  # Open skill screen
-
-        if self.move_distance >= 100:
-            self.move_distance = 0
-            if random.random() < 0.01:
-                explore_result = self.__explore_instance.explore(self.__selected_player)
-                self.draw_explore_result(explore_result)
 
     def update_viewport(self):
         player_rect = self.__selected_player.rect
@@ -322,11 +302,3 @@ class Game:
 
     def draw_skills_button(self):
         self.__screen.blit(self.skills_button_image, self.skills_button_rect)
-
-    def draw_explore_result(self, result):
-        font = pygame.font.Font(None, 36)
-        text = font.render(result, True, (255, 255, 255))
-        text_rect = text.get_rect(center=(self.screen_width // 2, self.screen_height // 2))
-        self.__screen.blit(text, text_rect)
-        pygame.display.flip()
-        pygame.time.wait(2000)  # Show the result for 2 seconds
