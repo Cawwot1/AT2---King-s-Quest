@@ -90,20 +90,20 @@ class Skill():
 
         #Boosts stats by a certain ammount (points * multiplier) based on skill level (calculated by boosted damage)
     def boost_attack(self, points):
-        if self.__attack_lv > 10:
-            self.setAtri_atk(self.__atri_attack + points * 5)
-        elif self.__attack_lv > 30:
+        if self.__attack_lv > 30:
             self.setAtri_atk(self.__atri_attack + points * 10)
+        elif self.__attack_lv > 10:
+            self.setAtri_atk(self.__atri_attack + points * 5)
         else:
             self.setAtri_atk(self.__atri_attack + points * 3)
     
     def boost_defence(self, points):
-        if self.__attack_lv > 10:
-            self.setAtri_atk(self.__atri_attack + points * 4)
-        elif self.__attack_lv > 30:
-            self.setAtri_atk(self.__atri_attack + points * 8)
+        if self.__defence_lv > 30:
+            self.setAtri_atk(self.__atri_defence + points * 8)
+        elif self.__defence_lv > 10:
+            self.setAtri_atk(self.__atri_defence + points * 4)
         else:
-            self.setAtri_atk(self.__atri_attack + points * 2)
+            self.setAtri_atk(self.__atri_defence + points * 2)
 
     def boost_speed(self, points): #Speed is incremented by 1 
         self.setAtri_spd(self.__atri_speed + points)

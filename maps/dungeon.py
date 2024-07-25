@@ -23,7 +23,7 @@ class Map_dungeon:
             Create_Enemy.Zombie()    # Create instances
         ])
         self.setBosses([Create_Enemy.MMmole()]) # Update Later
-        self.map_image = pygame.image.load('assets/mud_map.png').convert_alpha()
+        self.map_image = pygame.image.load('assets/dungeon_map.png').convert_alpha()
         self.map_width, self.map_height = self.map_image.get_size()
 
     # Getters

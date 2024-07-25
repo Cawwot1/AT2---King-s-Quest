@@ -377,9 +377,15 @@ class Combat(Character):
                             if action and current_time - last_attack_time >= attack_cooldown:
                                 self.add_message(f"Player selected: {self.__button_texts[action]}")  # Add action message
                                 if action == 'attack1':
-                                    damage = random.randint(15, 20)  # Random damage for attack1
+                                    damage = random.randint(round(self.__base_damage + self.__base_damage / 20), round(self.__base_damage - self.__base_damage / 20))  #damage for attack1
                                 elif action == 'attack2':
-                                    damage = random.randint(25, 30)  # Random damage for attack2
+                                    damage = random.randint(round(self.__base_damage + self.__base_damage / 20 + 10), round(self.__base_damage - self.__base_damage / 20 + 10))  # Random damage for attack2
+                                
+                                if self.__enemy_def >= damage: #Accounts for enemy defence
+                                    damage = 0
+                                else:
+                                    damage -= self.__enemy_def
+
                                 self.setEnemy_hp(max(0, self.__enemy_hp - damage))  # Apply damage to enemy
                                 player_turn = False  # Switch to enemy's turn
                                 last_attack_time = current_time  # Update last attack time
