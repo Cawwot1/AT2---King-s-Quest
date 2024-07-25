@@ -1,62 +1,44 @@
 # Attributes
-__screen = None
-__clock = None
-__screen_width = None
-__screen_height = None
-__selected_class = None
-__character_buttons = None
-__character_positions = None
-__description_boxes = None
-__character_info = None
+__name = None
+__character_class = None
+__rect = None
+__direction = None
+__movement_speed = None
+__d = None
 
 # Constructor
-def __init__(self, screen, clock, screen_width, screen_height, selected_class, character_buttons, character_positions, description_boxes, character_info):
-    self.setScreen(screen)
-    self.setClock(clock)
-    self.setScreen_width(screen_width)
-    self.setScreen_height(screen_height)
-    self.setSelected_class(selected_class)
-    self.setCharacter_buttons(character_buttons)
-    self.setCharacter_positions(character_positions)
-    self.setDescription_boxes(description_boxes)
-    self.setCharacter_info(character_info)
+def __init__(self, name, character_class, rect, direction, movement_speed, d):
+    self.setName(name)
+    self.setCharacter_class(character_class)
+    self.setRect(rect)
+    self.setDirection(direction)
+    self.setMovement_speed(movement_speed)
+    self.setD(d)
 
 # Getters
-def getScreen(self):
-    return self.__screen
-def getClock(self):
-    return self.__clock
-def getScreen_width(self):
-    return self.__screen_width
-def getScreen_height(self):
-    return self.__screen_height
-def getSelected_class(self):
-    return self.__selected_class
-def getCharacter_buttons(self):
-    return self.__character_buttons
-def getCharacter_positions(self):
-    return self.__character_positions
-def getDescription_boxes(self):
-    return self.__description_boxes
-def getCharacter_info(self):
-    return self.__character_info
+def getName(self):
+    return self.__name
+def getCharacter_class(self):
+    return self.__character_class
+def getRect(self):
+    return self.__rect
+def getDirection(self):
+    return self.__direction
+def getMovement_speed(self):
+    return self.__movement_speed
+def getD(self):
+    return self.__d
 
 # Setters
-def setScreen(self, screen):
-    self.__screen = screen
-def setClock(self, clock):
-    self.__clock = clock
-def setScreen_width(self, screen_width):
-    self.__screen_width = screen_width
-def setScreen_height(self, screen_height):
-    self.__screen_height = screen_height
-def setSelected_class(self, selected_class):
-    self.__selected_class = selected_class
-def setCharacter_buttons(self, character_buttons):
-    self.__character_buttons = character_buttons
-def setCharacter_positions(self, character_positions):
-    self.__character_positions = character_positions
-def setDescription_boxes(self, description_boxes):
-    self.__description_boxes = description_boxes
-def setCharacter_info(self, character_info):
-    self.__character_info = character_info
+def setName(self, name):
+    self.__name = name
+def setCharacter_class(self, character_class):
+    self.__character_class = character_class
+def setRect(self, rect):
+    self.__rect = rect
+def setDirection(self, direction):
+    self.__direction = direction
+def setMovement_speed(self, movement_speed):
+    self.__movement_speed = movement_speed
+def setD(self, d):
+    self.__d = d

@@ -32,16 +32,16 @@ class CharacterSelection:
             'Rogue': pygame.image.load('assets/classes/rogue.png').convert_alpha()})
 
         self.setCharacter_positions({ #Positions for the character buttons
-            'Warrior': (self.__screen_width // 4 - 50, self.__screen_height // 3 - 50),
-            'Mage': (self.__screen_width // 4 * 3 - 50, self.__screen_height // 3 - 50),
-            'Archer': (self.__screen_width // 4 - 50, self.__screen_height // 3 * 2 - 50),
-            'Rogue': (self.__screen_width // 4 * 3 - 50, self.__screen_height // 3 * 2 - 50)})
+            'Warrior': (self.__screen_width // 4 - 160, self.__screen_height // 3 - 120),
+            'Mage': (self.__screen_width // 4 * 3 - 160, self.__screen_height // 3 - 120),
+            'Archer': (self.__screen_width // 4 - 160, self.__screen_height // 3 * 2 - 120),
+            'Rogue': (self.__screen_width // 4 * 3 - 160, self.__screen_height // 3 * 2 - 120)})
 
         self.setDescription_boxes({ #Positions for the description boxes
-            'Warrior': (self.__screen_width // 4 - 50, self.__screen_height // 3 + 50),
-            'Mage': (self.__screen_width // 4 * 3 - 50, self.__screen_height // 3 + 50),
-            'Archer': (self.__screen_width // 4 - 50, self.__screen_height // 3 * 2 + 50),
-            'Rogue': (self.__screen_width // 4 * 3 - 50, self.__screen_height // 3 * 2 + 50)})
+            'Warrior': (self.__screen_width // 4 - 160, self.__screen_height // 3 - 40),
+            'Mage': (self.__screen_width // 4 * 3 - 160, self.__screen_height // 3 - 40),
+            'Archer': (self.__screen_width // 4 - 160, self.__screen_height // 3 * 2 - 40),
+            'Rogue': (self.__screen_width // 4 * 3 - 160, self.__screen_height // 3 * 2 - 40)})
         
         self.setCharacter_info({ #Descriptions and special abilities
             'Warrior': ("A brave warrior with high defense.", "Special Ability: Power Strike"),
@@ -79,11 +79,11 @@ class CharacterSelection:
             self.__screen.blit(self.__character_buttons[char], pos)  # Draw character buttons
 
         for char, pos in self.__description_boxes.items():
-            pygame.draw.rect(self.__screen, (50, 50, 50), pygame.Rect(pos, (200, 100)))  # Draw description box background
+            pygame.draw.rect(self.__screen, (50, 50, 50), pygame.Rect(pos, (330, 150)))  # Draw description box background
             self.draw_text(char, 24, (255, 255, 255), pos[0] + 10, pos[1] + 10)  # Draw character name
             description, ability = self.__character_info[char]
-            self.draw_text(description, 18, (255, 255, 255), pos[0] + 10, pos[1] + 30)  # Draw character description
-            self.draw_text(ability, 18, (255, 255, 255), pos[0] + 10, pos[1] + 60)  # Draw character special ability
+            self.draw_text(description, 18, (255, 255, 255), pos[0] + 10, pos[1] + 50)  # Draw character description
+            self.draw_text(ability, 18, (255, 255, 255), pos[0] + 10, pos[1] + 80)  # Draw character special ability
         
         pygame.display.flip()  # Update the display
 
