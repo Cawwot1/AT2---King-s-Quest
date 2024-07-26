@@ -3,7 +3,6 @@ from equipment.weapons.dagger import Dagger
 from equipment.weapons.staff import Staff
 from equipment.weapons.sword import Sword
 from equipment.accessories import Accessories
-from equipment.equipment import Equipment
 from equipment.armour import Armour
 
 #Factory Class

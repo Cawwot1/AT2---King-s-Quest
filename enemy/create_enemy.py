@@ -2,20 +2,7 @@ from enemy.enemy import Enemy
 
 #Factory Class
 class Create_Enemy():
-
-    __selection = None
-
-    def __init__(self):
-        self.setSelection(None)
-    
-    # Accessors
-    def getSelection(self): return self.__selection
-    
-    #Mutators
-    def setSelection(self, new_selection): self.__selection = new_selection
-    
     #Behaviors -> Preset Enemy Stats
-
     def Bandit():
         return Enemy(
             20, #Health

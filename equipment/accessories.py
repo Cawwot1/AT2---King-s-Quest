@@ -52,10 +52,3 @@ class Accessories(Equipment):
 
     def attack_mult(self):
         return (self.__attack)
-
-    def info(self): #Calls from Parent Class (Inherited Behaviours)
-        return (f"{super().info()}\n"
-                f"Defence: {self.__defence}\n"
-                f"Hardness: {self.__attack}\n"
-                f"Armour Piece: {self.__piece}\n"
-                f"Abilities: {self.__abilities}")

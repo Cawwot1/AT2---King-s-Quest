@@ -1,16 +1,13 @@
 #Inventory & Abilities
-from item_management.inventory import Inventory
 from character.attributes.skill import Skill
+from equipment.create_equipment import Create_Equipment
 
 #Maps & Environment
-from enemy.create_enemy import Create_Enemy
 from maps.woodlands import Map_Woodlands
 
 #Map & Camera
 from game_run.settings import *
 
-import random
-import math
 import pygame
 import time
 
@@ -34,8 +31,6 @@ class Character(pygame.sprite.Sprite):
     __direction = None
     __movement_speed = None
 
-        #Equipment & Inventory
-    __inventory = None
 
         #Equipped
     __equipped_ring = None
@@ -300,7 +295,7 @@ class Character(pygame.sprite.Sprite):
                 return
         self.__equipped_weapon = weapon_object #equips weapon
         print(f"{weapon_object} equipped")
-
+        
     def equip_armour(self, armour_object):
 
         """

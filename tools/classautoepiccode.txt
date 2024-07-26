@@ -1,20 +1,20 @@
 # Attributes
-__skills_button_image = None
-__skills_button_rect = None
+__attack1_message = None
+__attack2_message = None
 
 # Constructor
-def __init__(self, skills_button_image, skills_button_rect):
-    self.setSkills_button_image(skills_button_image)
-    self.setSkills_button_rect(skills_button_rect)
+def __init__(self, attack1_message, attack2_message):
+    self.setAttack1_message(attack1_message)
+    self.setAttack2_message(attack2_message)
 
 # Getters
-def getSkills_button_image(self):
-    return self.__skills_button_image
-def getSkills_button_rect(self):
-    return self.__skills_button_rect
+def getAttack1_message(self):
+    return self.__attack1_message
+def getAttack2_message(self):
+    return self.__attack2_message
 
 # Setters
-def setSkills_button_image(self, skills_button_image):
-    self.__skills_button_image = skills_button_image
-def setSkills_button_rect(self, skills_button_rect):
-    self.__skills_button_rect = skills_button_rect
+def setAttack1_message(self, attack1_message):
+    self.__attack1_message = attack1_message
+def setAttack2_message(self, attack2_message):
+    self.__attack2_message = attack2_message

@@ -12,9 +12,6 @@ from maps.woodlands import Map_Woodlands
 from maps.mudflats import Map_mudflats
 from maps.dungeon import Map_dungeon
 
-#Skills
-from character.attributes.skill import Skill
-
 #Character Selection & Class
 from character.classes.character_class import CharacterSelection
 
@@ -325,7 +322,7 @@ class Game:
     """
     Draw (Generate Text & Visuals e.g. Maps) Functions
     """
-    
+
     def draw_map(self):
         map_sprite = self.__map.getMap_sprite()
         map_width, map_height = self.__map.get_map_size()

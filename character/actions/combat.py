@@ -1,8 +1,12 @@
 import pygame
 import random
 from character.character import Character
-from enemy.enemy import Enemy
+from character.classes.mage import Mage
+from character.classes.warrior import Warrior
+from character.classes.rogue import Rogue
+from character.classes.archer import Archer
 
+#Character Classes
 class Combat(Character):
     
     # Attributes
@@ -113,16 +117,28 @@ class Combat(Character):
             'attack1': pygame.Rect(screen.get_width() // 2 - 75, screen.get_height() - 120, 150, 40),
             'attack2': pygame.Rect(screen.get_width() // 2 - 75, screen.get_height() - 70, 150, 40),
         })
-        
         #Set colors for the attack buttons
         self.setButton_colours({
             'attack1': (0, 255, 0),  # Green for Attack Level 1
             'attack2': (0, 0, 255),  # Blue for Attack Level 2
         })
         #Set text labels for the attack buttons
+        if selected_character.getCharacter_class().lower() == "warrior":
+            char_attack1 = Warrior.attack_names(1)
+            char_attack2 = Warrior.attack_names(2)
+        elif selected_character.getCharacter_class().lower() == "archer":
+            char_attack1 = Archer.attack_names(1)
+            char_attack2 = Archer.attack_names(2)
+        elif selected_character.getCharacter_class().lower() == "rogue":
+            char_attack1 = Rogue.attack_names(1)
+            char_attack2 = Rogue.attack_names(2)
+        else:
+            char_attack1 = Mage.attack_names(1)
+            char_attack2 = Mage.attack_names(2)
+
         self.setButton_texts({
-            'attack1': "Attack Level 1",
-            'attack2': "Attack Level 2",
+            'attack1': (f"{char_attack1}"),
+            'attack2': (f"{char_attack2}"),
         })
         
         #Set up confirmation buttons with positions and sizes
@@ -377,9 +393,9 @@ class Combat(Character):
                             if action and current_time - last_attack_time >= attack_cooldown:
                                 self.add_message(f"Player selected: {self.__button_texts[action]}")  # Add action message
                                 if action == 'attack1':
-                                    damage = random.randint(round(self.__base_damage + self.__base_damage / 20), round(self.__base_damage - self.__base_damage / 20))  #damage for attack1
+                                    damage = random.randint(self.__base_damage, self.__base_damage + 5)  #Damage for attack1
                                 elif action == 'attack2':
-                                    damage = random.randint(round(self.__base_damage + self.__base_damage / 20 + 10), round(self.__base_damage - self.__base_damage / 20 + 10))  # Random damage for attack2
+                                    damage = random.randint(self.__base_damage, self.__base_damage + 15) #Damage for attack2
                                 
                                 if self.__enemy_def >= damage: #Accounts for enemy defence
                                     damage = 0

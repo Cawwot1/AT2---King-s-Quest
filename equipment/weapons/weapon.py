@@ -8,7 +8,7 @@ class Weapon(Equipment, ABC):
     __piercing = None
     __damage = None
     __weapon_type = None
-    __isElement_damage = bool
+    __isElement_damage = None
     __element_damage = None
     __element = None
 

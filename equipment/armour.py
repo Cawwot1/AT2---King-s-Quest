@@ -5,12 +5,12 @@ from abilities.ability_list import Ability_list
 class Armour(Equipment):
 
     #Atributes
-    _defence = None
-    _hardness = None
-    _elemental_def = None
-    _abilities = None
-    _ability_list = None
-    _armour_piece = None
+    __defence = None
+    __hardness = None
+    __elemental_def = None
+    __abilities = None
+    __ability_list = None
+    __armour_piece = None
 
     #Constructor
     def __init__(self, name, description, quality, rarity, level_req, defence, hardness, armour_piece, elemental_def, abilities, item_type):

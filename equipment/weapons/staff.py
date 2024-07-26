@@ -16,10 +16,10 @@ class Staff(Weapon):
     def setMana(self, new_mana): self.__mana = new_mana
 
     # Behaviours
-    def attack_mult(self, target):
+    def attack_mult(self):
         # Logic for attacking a target
         pass
 
-    def block_mult(self, target):
+    def block_mult(self):
         # Logic for blocking
         pass

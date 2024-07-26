@@ -20,6 +20,6 @@ class Sword(Weapon):
         #Attack Stats
         pass
 
-    def block_mult(self, target):
+    def block_mult(self):
         # Logic for blocking
         pass
