@@ -41,9 +41,9 @@ class Create_Enemy():
     
     def Boss_boar():
         return Enemy(
-            200, #Health
+            300, #Health
             5, #Attack
-            10, #Defence
+            15, #Defence
             10, #Speed
             "Boss", #Type
             "Boss Boar", #Name
@@ -53,9 +53,9 @@ class Create_Enemy():
     
     def MMmole():
         return Enemy(
-            400, #Health
-            10, #Attack
-            10, #Defence
+            5000, #Health
+            20, #Attack
+            30, #Defence
             5, #Speed
             "Boss", #Type
             "MMmole", #Name

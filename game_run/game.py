@@ -167,7 +167,8 @@ class Game:
     def run(self):
         selected_character = self.__character_selection.run()
         self.__selected_player.setImage(pygame.image.load(f'assets/classes/{selected_character.lower()}.png').convert_alpha())
-    
+        self.__selected_player.setCharacter_class(selected_character)
+
         if selected_character is None:
             self.__running = False  # Exit game if no character selected
         else:

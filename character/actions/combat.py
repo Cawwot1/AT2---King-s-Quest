@@ -396,12 +396,6 @@ class Combat(Character):
                                     damage = random.randint(self.__base_damage, self.__base_damage + 5)  #Damage for attack1
                                 elif action == 'attack2':
                                     damage = random.randint(self.__base_damage, self.__base_damage + 15) #Damage for attack2
-                                
-                                if self.__enemy_def >= damage: #Accounts for enemy defence
-                                    damage = 0
-                                else:
-                                    damage -= self.__enemy_def
-
                                 self.setEnemy_hp(max(0, self.__enemy_hp - damage))  # Apply damage to enemy
                                 player_turn = False  # Switch to enemy's turn
                                 last_attack_time = current_time  # Update last attack time
